@@ -1,0 +1,200 @@
+'use client';
+
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { HiArrowRight, HiArrowUpRight, HiChevronDown } from 'react-icons/hi2';
+
+const menuItems = [
+    { title: 'HOME', href: '#home' },
+    { title: 'ABOUT US', href: '#about' },
+    {
+        title: 'SERVICES',
+        children: [
+            { title: 'Software Development', href: '#services' },
+            { title: 'Investment Management', href: '#services' },
+            { title: 'Business Development', href: '#services' },
+            { title: 'Digital Transformation', href: '#services' }
+        ]
+    },
+    { title: 'PROJECTS', href: '#testimonials' }, // Changed to testimonials as projects section isn't explicit yet
+    { title: 'CONTACT', href: '#contact' }
+];
+
+export default function Header() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [activeLink, setActiveLink] = useState('HOME');
+    const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const toggleAccordion = (title: string) => {
+        if (openAccordion === title) {
+            setOpenAccordion(null);
+        } else {
+            setOpenAccordion(title);
+        }
+    };
+
+    return (
+        <>
+            <header className="fixed top-6 left-0 right-0 z-[100] px-6 transition-all duration-500 md:px-12 lg:px-24 pointer-events-none">
+                <div className="mx-auto flex max-w-7xl items-center justify-between">
+
+                    {/* 1. Logo Pill - Morphs when menu open */}
+                    <Link
+                        href="/"
+                        className={`pointer-events-auto group relative flex items-center overflow-hidden rounded-full border border-white/10 bg-white shadow-lg transition-all duration-500 ${isMenuOpen ? 'h-12 w-12 justify-center pl-0 pr-0' : 'h-12 w-auto gap-3 pl-2 pr-6'
+                            }`}
+                    >
+                        <div className={`flex h-8 w-8 items-center justify-center rounded-full bg-black text-white transition-transform duration-500 ${isMenuOpen ? 'scale-100' : ''}`}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                            </svg>
+                        </div>
+                        <span className={`font-bold tracking-widest text-black whitespace-nowrap transition-all duration-300 ${isMenuOpen ? 'w-0 opacity-0 overflow-hidden' : 'w-auto opacity-100'
+                            }`}>
+                            BARRWIT
+                        </span>
+                    </Link>
+
+                    <div className="flex items-center gap-4 pointer-events-auto">
+
+                        {/* 2. LET'S TALK Pill */}
+                        <a
+                            href="#contact"
+                            className="group hidden h-12 items-center gap-3 rounded-full bg-[#1a1a1a] px-6 text-sm font-bold tracking-widest text-white transition-all duration-300 hover:bg-cyan-400 hover:text-black md:flex shadow-lg"
+                        >
+                            <span>LET'S TALK</span>
+                            <span className="relative flex h-2 w-2">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75 group-hover:bg-black"></span>
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400 group-hover:bg-black"></span>
+                            </span>
+                        </a>
+
+                        {/* 3. MENU / CLOSE Pill */}
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="group flex h-12 items-center gap-3 rounded-full bg-white px-6 text-sm font-bold tracking-widest text-black shadow-lg transition-all duration-300 hover:bg-gray-100"
+                        >
+                            <span>{isMenuOpen ? 'CLOSE' : 'MENU'}</span>
+                            <div className="flex flex-col gap-1">
+                                {isMenuOpen ? (
+                                    <>
+                                        <div className="h-1 w-1 rounded-full bg-black"></div>
+                                        <div className="h-1 w-1 rounded-full bg-black"></div>
+                                    </>
+                                ) : (
+                                    <div className="flex gap-0.5">
+                                        <div className="h-1 w-1 rounded-full bg-black"></div>
+                                        <div className="h-1 w-1 rounded-full bg-black"></div>
+                                    </div>
+                                )}
+                            </div>
+                        </button>
+                    </div>
+
+                </div>
+            </header>
+
+            {/* Card Menu Overlay */}
+            <div
+                className={`fixed inset-0 z-[90] flex items-start justify-center overflow-y-auto bg-black/60 pt-10 pb-10 backdrop-blur-md transition-all duration-500 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                    }`}
+            >
+                <div
+                    className={`flex w-full max-w-sm flex-col gap-4 transition-all duration-700 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
+                        }`}
+                >
+                    {/* Card 1: Navigation */}
+                    <div className="rounded-[2rem] border border-white/10 bg-[#0a0a0a] p-8 shadow-2xl">
+                        <nav className="flex flex-col gap-4">
+                            {menuItems.map((item) => (
+                                <div key={item.title}>
+                                    {item.children ? (
+                                        // Accordion Item
+                                        <div>
+                                            <button
+                                                onClick={() => toggleAccordion(item.title)}
+                                                className="group flex w-full items-center justify-between text-2xl font-bold tracking-tight text-white transition-colors hover:text-cyan-400"
+                                            >
+                                                <span>{item.title}</span>
+                                                <HiChevronDown
+                                                    className={`text-xl transition-transform duration-300 text-white group-hover:text-cyan-400 ${openAccordion === item.title ? 'rotate-180' : ''
+                                                        }`}
+                                                />
+                                            </button>
+
+                                            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === item.title ? 'max-h-64 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'
+                                                }`}>
+                                                <div className="flex flex-col gap-3 pl-4 border-l-2 border-white/10">
+                                                    {item.children.map((child) => (
+                                                        <a
+                                                            key={child.title}
+                                                            href={child.href}
+                                                            onClick={() => { setActiveLink(item.title); setIsMenuOpen(false); }}
+                                                            className="text-lg font-medium text-gray-400 hover:text-cyan-400 transition-colors"
+                                                        >
+                                                            {child.title}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        // Regular Link
+                                        <a
+                                            href={item.href}
+                                            onClick={() => { setActiveLink(item.title); setIsMenuOpen(false); }}
+                                            className="group flex items-center justify-between text-2xl font-bold tracking-tight text-white transition-colors hover:text-cyan-400"
+                                        >
+                                            <span>{item.title}</span>
+                                            {activeLink === item.title && (
+                                                <div className="h-2 w-2 rounded-full bg-cyan-400"></div>
+                                            )}
+                                        </a>
+                                    )}
+                                </div>
+                            ))}
+                        </nav>
+                    </div>
+
+                    {/* Card 2: Newsletter */}
+                    <div className="rounded-[2rem] border border-white/10 bg-[#0a0a0a] p-8 shadow-2xl">
+                        <h3 className="mb-6 text-3xl font-bold leading-tight text-white">
+                            Subscribe to<br />our newsletter
+                        </h3>
+                        <div className="relative">
+                            <input
+                                type="email"
+                                placeholder="Your email"
+                                className="w-full rounded-2xl bg-white/5 border border-white/10 px-6 py-4 text-white placeholder-gray-500 outline-none transition-all focus:border-cyan-400/50 focus:bg-white/10"
+                            />
+                            <button className="absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black transition-transform hover:scale-105 hover:bg-cyan-400">
+                                <HiArrowRight className="text-xl" />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Card 3: Labs */}
+                    <div className="flex items-center justify-between rounded-[2rem] border border-white/10 bg-black p-6 shadow-2xl">
+                        <div className="flex items-center gap-3">
+                            <div className="text-2xl text-white">☺</div>
+                            <span className="text-xl font-bold tracking-widest text-white">LABS</span>
+                        </div>
+                        <div className="text-white">
+                            <HiArrowUpRight className="text-2xl" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </>
+    );
+}
