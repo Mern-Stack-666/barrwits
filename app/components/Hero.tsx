@@ -47,21 +47,22 @@ export default function Hero() {
     };
 
     return (
-        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black px-6 pb-10 text-white perspective-[1000px]">
+
+        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black px-6 pb-20 pt-24 text-white perspective-[1000px] lg:pb-10 lg:pt-0">
             {/* 3D Background */}
             <Scene />
 
-            {/* Ambient Background Glow Orb (Creative Addition) */}
+            {/* Ambient Background Glow Orb */}
             <div className={`absolute left-10 top-20 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px] transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
 
             {/* Content Overlay */}
-            <div className="relative z-50 flex w-full max-w-7xl flex-col items-center justify-between gap-16 px-6 pt-20 pb-16 lg:flex-row lg:pt-24">
+            <div className="relative z-50 flex w-full max-w-7xl flex-col items-center justify-between gap-12 px-4 lg:flex-row lg:gap-16 lg:px-6">
 
                 {/* Left Column - Text Content */}
-                <div className={`flex flex-col items-start justify-center lg:w-1/2 ${isVisible ? 'div-animate-slide-in-left' : 'opacity-0'}`}>
+                <div className={`flex flex-col items-start justify-center pt-10 lg:w-1/2 lg:pt-0 ${isVisible ? 'div-animate-slide-in-left' : 'opacity-0'}`}>
 
                     {/* Eyebrow */}
-                    <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.1)] transition-transform hover:scale-105">
+                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.1)] transition-transform hover:scale-105">
                         <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></div>
                         <span className="text-xs font-medium tracking-widest text-cyan-400">
                             {typedText}
@@ -70,31 +71,31 @@ export default function Hero() {
                     </div>
 
                     {/* Main Headline */}
-                    <h1 className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
+                    <h1 className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-7xl">
                         An organization where you find{" "}
                         <span className="relative inline-block">
                             <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-cyan-400 animate-gradient-x bg-[length:200%_auto]">growth</span>
-                            <span className="absolute -bottom-2 left-0 h-1 w-full bg-cyan-400/30 blur-sm"></span>
+                            <span className="absolute -bottom-1 left-0 h-1 w-full bg-cyan-400/30 blur-sm lg:-bottom-2"></span>
                         </span>
                     </h1>
 
                     {/* Description */}
-                    <p className="mb-5 max-w-xl text-lg font-light leading-relaxed text-gray-300 md:text-xl lg:text-2xl">
+                    <p className="mb-8 max-w-xl text-lg font-light leading-relaxed text-gray-300 lg:mb-10 lg:text-2xl">
                         Not just for businesses but for people who live in something big. Barrwit International is the game changer when it comes to software, investment management and BD.
                     </p>
 
                     {/* Buttons */}
-                    <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-                        <button className="btn-premium group relative overflow-hidden bg-gradient-to-r from-white to-[#E8E8E8] px-10 py-5 text-sm font-bold tracking-widest text-black shadow-2xl transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,255,255,0.4)] hover:-translate-y-1">
-                            <span className="relative z-10 flex items-center gap-3">
+                    <div className="flex w-full flex-col gap-4 sm:flex-row sm:gap-6 lg:w-auto">
+                        <button className="btn-premium group relative overflow-hidden bg-gradient-to-r from-white to-[#E8E8E8] px-8 py-4 text-sm font-bold tracking-widest text-black shadow-2xl transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,255,255,0.4)] hover:-translate-y-1 lg:px-10 lg:py-5">
+                            <span className="relative z-10 flex items-center justify-center gap-3">
                                 DISCOVER MORE
                                 <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
                             </span>
                         </button>
-                        <button className="btn-premium group relative overflow-hidden border-2 border-white/30 bg-transparent px-10 py-5 text-sm font-bold tracking-widest text-white backdrop-blur-sm transition-all duration-500 hover:border-cyan-400/60 hover:text-cyan-400 hover:bg-cyan-400/10 hover:-translate-y-1">
-                            <span className="relative z-10 flex items-center gap-3">
+                        <button className="btn-premium group relative overflow-hidden border-2 border-white/30 bg-transparent px-8 py-4 text-sm font-bold tracking-widest text-white backdrop-blur-sm transition-all duration-500 hover:border-cyan-400/60 hover:text-cyan-400 hover:bg-cyan-400/10 hover:-translate-y-1 lg:px-10 lg:py-5">
+                            <span className="relative z-10 flex items-center justify-center gap-3">
                                 CONTACT US
                                 <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -104,15 +105,15 @@ export default function Hero() {
                     </div>
 
                     {/* Detailed Stats */}
-                    <div className="mt-7 flex gap-12 border-t border-white/10 pt-4">
+                    <div className="mt-10 grid w-full grid-cols-3 gap-4 border-t border-white/10 pt-8 lg:mt-16 lg:flex lg:w-auto lg:gap-12">
                         {[
                             { val: '15+', label: 'Years Experience' },
                             { val: '200+', label: 'Global Clients' },
                             { val: '98%', label: 'Success Rate' }
                         ].map((stat, i) => (
-                            <div key={i} className="group cursor-default">
-                                <div className="text-4xl font-bold text-white transition-all group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">{stat.val}</div>
-                                <div className="text-sm text-gray-400 tracking-wide group-hover:text-gray-200">{stat.label}</div>
+                            <div key={i} className="group cursor-default text-center lg:text-left">
+                                <div className="text-2xl font-bold text-white transition-all group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_10px_rgba(34,211,238,0.5)] lg:text-4xl">{stat.val}</div>
+                                <div className="text-xs text-gray-400 tracking-wide group-hover:text-gray-200 lg:text-sm">{stat.label}</div>
                             </div>
                         ))}
                     </div>
@@ -121,18 +122,18 @@ export default function Hero() {
 
                 {/* Right Column - Interactive Image Container */}
                 <div
-                    className={`flex items-center justify-center lg:w-1/3 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}
+                    className={`flex items-center justify-center w-full lg:w-1/3 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}
                     style={{ animationDelay: '0.2s' }}
                     onMouseMove={handleMouseMove}
                     onMouseLeave={handleMouseLeave}
                     ref={imageRef}
                 >
                     <div
-                        className="relative h-[600px] w-full max-w-lg transition-transform duration-200 ease-out"
+                        className="relative h-[400px] w-full max-w-lg transition-transform duration-200 ease-out lg:h-[600px]"
                         style={{ transform: `rotateY(${tilt.x}deg) rotateX(${-tilt.y}deg)` }}
                     >
                         {/* Main Glass Card */}
-                        <div className="relative h-full w-full rounded-3xl border border-cyan-400/30 bg-gradient-to-br from-cyan-400/10 via-gray-900/60 to-black p-2 shadow-[0_0_50px_rgba(0,255,255,0.15)] backdrop-blur-md">
+                        <div className="relative h-full w-full rounded-3xl border border-cyan-400/30 bg-gradient-to-br from-cyan-400/10 via-gray-900/60 to-black p-4 shadow-[0_0_50px_rgba(0,255,255,0.15)] backdrop-blur-md lg:p-6">
                             <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-3xl blur-2xl"></div>
 
                             <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/5">
@@ -146,7 +147,7 @@ export default function Hero() {
                             </div>
 
                             {/* Floating Badge 1 - Top Left */}
-                            <div className="absolute -left-8 top-12 flex animate-float-slow items-center gap-3 rounded-xl border border-white/10 bg-black/80 p-4 shadow-xl backdrop-blur-md transition-transform hover:scale-110">
+                            <div className="absolute -left-4 top-8 hidden animate-float-slow items-center gap-3 rounded-xl border border-white/10 bg-black/80 p-3 shadow-xl backdrop-blur-md transition-transform hover:scale-110 lg:-left-8 lg:top-12 lg:flex lg:p-4">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-400/20 text-cyan-400">
                                     <HiChartBar className="text-xl" />
                                 </div>
@@ -157,7 +158,7 @@ export default function Hero() {
                             </div>
 
                             {/* Floating Badge 2 - Bottom Right */}
-                            <div className="absolute -right-8 bottom-24 flex animate-float-reverse items-center gap-3 rounded-xl border border-white/10 bg-black/80 p-4 shadow-xl backdrop-blur-md transition-transform hover:scale-110">
+                            <div className="absolute -right-4 bottom-16 hidden animate-float-reverse items-center gap-3 rounded-xl border border-white/10 bg-black/80 p-3 shadow-xl backdrop-blur-md transition-transform hover:scale-110 lg:-right-8 lg:bottom-24 lg:flex lg:p-4">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/20 text-pink-400">
                                     <HiGlobeAlt className="text-xl" />
                                 </div>
@@ -168,7 +169,7 @@ export default function Hero() {
                             </div>
 
                             {/* Floating Badge 3 - Bottom Left (Small) */}
-                            <div className="absolute -bottom-6 left-12 flex animate-float-slow items-center gap-2 rounded-full border border-white/10 bg-black/80 px-4 py-2 shadow-xl backdrop-blur-md">
+                            <div className="absolute -bottom-4 left-8 hidden animate-float-slow items-center gap-2 rounded-full border border-white/10 bg-black/80 px-4 py-2 shadow-xl backdrop-blur-md lg:-bottom-6 lg:left-12 lg:flex">
                                 <HiShieldCheck className="text-green-400" />
                                 <span className="text-xs font-bold text-white">ISO Certified</span>
                             </div>
@@ -180,7 +181,7 @@ export default function Hero() {
             </div>
 
             {/* Scroll Indicator */}
-            <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+            <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden animate-bounce transition-opacity duration-1000 lg:block ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="flex flex-col items-center gap-2 opacity-50 transition-opacity hover:opacity-100">
                     <div className="h-12 w-7 rounded-full border-2 border-white/30 flex justify-center pt-2 shadow-[0_0_10px_rgba(255,255,255,0.2)]">
                         <div className="h-3 w-1 rounded-full bg-cyan-400 animate-pulse"></div>

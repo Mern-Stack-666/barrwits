@@ -49,7 +49,7 @@ export default function WhatWeDo() {
         <section
             ref={sectionRef}
             id="what-we-do"
-            className="relative min-h-screen w-full bg-black px-6 pb-20"
+            className="relative min-h-screen w-full bg-black px-6 py-20 "
         >
             <div className="mx-auto max-w-7xl">
 
