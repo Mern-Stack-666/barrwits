@@ -5,9 +5,9 @@ import { HiMail } from 'react-icons/hi';
 
 export default function Footer() {
     return (
-        <footer className="relative w-full border-t border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black px-6 py-20 md:px-12 lg:px-24">
+        <footer className="relative w-full border-t border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black px-6 py-8 md:py-20 md:px-12 lg:px-24">
             {/* Background Glow */}
-            <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-full bg-gradient-to-t from-cyan-900/10 to-transparent"></div>
+            <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-full bg-gradient-to-t from-white/5 to-transparent"></div>
 
             <div className="relative mx-auto max-w-7xl">
 
@@ -22,7 +22,7 @@ export default function Footer() {
                             </p>
                         </div>
 
-                        <div className="max-w-md rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors hover:border-cyan-400/30">
+                        <div className="max-w-md rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors hover:border-[#C0C0C0]/30">
                             <h4 className="mb-4 text-sm font-bold tracking-widest text-white">STAY UPDATED</h4>
                             <div className="flex gap-2">
                                 <div className="relative flex-1">
@@ -30,10 +30,10 @@ export default function Footer() {
                                     <input
                                         type="email"
                                         placeholder="Enter your email"
-                                        className="w-full rounded-xl border border-white/10 bg-black/50 py-3 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                                        className="w-full rounded-xl border border-white/10 bg-black/50 py-3 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:border-[#C0C0C0] focus:outline-none focus:ring-1 focus:ring-[#C0C0C0]"
                                     />
                                 </div>
-                                <button className="group flex h-[46px] w-[46px] items-center justify-center rounded-xl bg-cyan-400 text-black transition-transform hover:scale-105 hover:bg-white">
+                                <button className="group flex h-[46px] w-[46px] items-center justify-center rounded-xl bg-[#C0C0C0] text-black transition-transform hover:scale-105 hover:bg-white">
                                     <FaArrowRight className="transition-transform duration-300 group-hover:-rotate-45" />
                                 </button>
                             </div>
@@ -45,12 +45,12 @@ export default function Footer() {
 
                         {/* Services */}
                         <div>
-                            <h4 className="mb-6 text-sm font-bold tracking-widest text-cyan-400">SERVICES</h4>
+                            <h4 className="mb-6 text-sm font-bold tracking-widest text-[#C0C0C0]">SERVICES</h4>
                             <ul className="space-y-4">
                                 {['Software Development', 'Investment Management', 'Business Development', 'Digital Transformation'].map((item) => (
                                     <li key={item}>
                                         <a href="#" className="group flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-white">
-                                            <span className="h-px w-0 bg-cyan-400 transition-all duration-300 group-hover:w-3"></span>
+                                            <span className="h-px w-0 bg-[#C0C0C0] transition-all duration-300 group-hover:w-3"></span>
                                             {item}
                                         </a>
                                     </li>
@@ -60,12 +60,12 @@ export default function Footer() {
 
                         {/* Company */}
                         <div>
-                            <h4 className="mb-6 text-sm font-bold tracking-widest text-cyan-400">COMPANY</h4>
+                            <h4 className="mb-6 text-sm font-bold tracking-widest text-[#C0C0C0]">COMPANY</h4>
                             <ul className="space-y-4">
                                 {['About Us', 'Our Team', 'Careers', 'Latest News'].map((item) => (
                                     <li key={item}>
                                         <a href="#" className="group flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-white">
-                                            <span className="h-px w-0 bg-cyan-400 transition-all duration-300 group-hover:w-3"></span>
+                                            <span className="h-px w-0 bg-[#C0C0C0] transition-all duration-300 group-hover:w-3"></span>
                                             {item}
                                         </a>
                                     </li>
@@ -75,15 +75,15 @@ export default function Footer() {
 
                         {/* Connect */}
                         <div>
-                            <h4 className="mb-6 text-sm font-bold tracking-widest text-cyan-400">SOCIAL</h4>
+                            <h4 className="mb-6 text-sm font-bold tracking-widest text-[#C0C0C0]">SOCIAL</h4>
                             <div className="flex flex-col gap-4">
-                                <a href="#" className="flex items-center gap-3 text-sm text-gray-400 transition-colors hover:text-cyan-400">
+                                <a href="#" className="flex items-center gap-3 text-sm text-gray-400 transition-colors hover:text-[#C0C0C0]">
                                     <FaLinkedinIn className="text-lg" /> LinkedIn
                                 </a>
-                                <a href="#" className="flex items-center gap-3 text-sm text-gray-400 transition-colors hover:text-cyan-400">
+                                <a href="#" className="flex items-center gap-3 text-sm text-gray-400 transition-colors hover:text-[#C0C0C0]">
                                     <FaTwitter className="text-lg" /> Twitter
                                 </a>
-                                <a href="#" className="flex items-center gap-3 text-sm text-gray-400 transition-colors hover:text-cyan-400">
+                                <a href="#" className="flex items-center gap-3 text-sm text-gray-400 transition-colors hover:text-[#C0C0C0]">
                                     <FaInstagram className="text-lg" /> Instagram
                                 </a>
                             </div>
@@ -99,7 +99,7 @@ export default function Footer() {
                     </p>
                     <div className="flex gap-8">
                         {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
-                            <a key={item} href="#" className="text-xs text-gray-600 transition-colors hover:text-cyan-400">
+                            <a key={item} href="#" className="text-xs text-gray-600 transition-colors hover:text-[#C0C0C0]">
                                 {item}
                             </a>
                         ))}

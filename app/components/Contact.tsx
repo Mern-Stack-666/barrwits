@@ -28,7 +28,7 @@ export default function Contact() {
         <section
             ref={sectionRef}
             id="contact"
-            className="relative w-full bg-black px-6 pb-20"
+            className="relative w-full bg-black px-6 pb-8 md:pb-12"
         >
             <div className="mx-auto max-w-5xl">
 

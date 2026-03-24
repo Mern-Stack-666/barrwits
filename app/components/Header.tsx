@@ -6,7 +6,7 @@ import { HiArrowRight, HiArrowUpRight, HiChevronDown } from 'react-icons/hi2';
 
 const menuItems = [
     { title: 'HOME', href: '#home' },
-    { title: 'ABOUT US', href: '#about' },
+    { title: 'ABOUT US', href: '/about' },
     {
         title: 'SERVICES',
         children: [
@@ -27,6 +27,24 @@ export default function Header() {
     const [openAccordion, setOpenAccordion] = useState<string | null>(null);
 
     useEffect(() => {
+        if (!isMenuOpen) return;
+
+        const originalOverflow = document.body.style.overflow;
+        const originalPaddingRight = document.body.style.paddingRight;
+
+        const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = 'hidden';
+        if (scrollBarWidth > 0) {
+            document.body.style.paddingRight = `${scrollBarWidth}px`;
+        }
+
+        return () => {
+            document.body.style.overflow = originalOverflow;
+            document.body.style.paddingRight = originalPaddingRight;
+        };
+    }, [isMenuOpen]);
+
+    useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
@@ -44,8 +62,14 @@ export default function Header() {
 
     return (
         <>
-            <header className="fixed top-6 left-0 right-0 z-[100] px-6 transition-all duration-500 md:px-12 lg:px-24 pointer-events-none">
-                <div className="mx-auto flex max-w-7xl items-center justify-between">
+            <header className="fixed top-6 left-0 right-0 z-[100] px-6 transition-all duration-500 md:px-12 py-3 lg:px-24 pointer-events-none">
+                <div className="relative mx-auto max-w-7xl">
+                    <div className={`pointer-events-none absolute -inset-x-4 -inset-y-3 rounded-[2.25rem] border transition-all duration-500 md:-inset-x-6 lg:-inset-x-10 ${isScrolled || isMenuOpen
+                        ? 'border-white/10 bg-black/40 backdrop-blur-xl'
+                        : 'border-transparent bg-transparent'
+                        }`}></div>
+
+                    <div className="relative flex items-center justify-between">
 
                     {/* 1. Logo Pill - Morphs when menu open */}
                     <Link
@@ -69,12 +93,12 @@ export default function Header() {
                         {/* 2. LET'S TALK Pill */}
                         <a
                             href="#contact"
-                            className="group hidden h-12 items-center gap-3 rounded-full bg-[#1a1a1a] px-6 text-sm font-bold tracking-widest text-white transition-all duration-300 hover:bg-cyan-400 hover:text-black md:flex shadow-lg"
+                            className="group hidden h-12 items-center gap-3 rounded-full bg-[#1a1a1a] px-6 text-sm font-bold tracking-widest text-white transition-all duration-300 hover:bg-[#C0C0C0] hover:text-black md:flex shadow-lg"
                         >
                             <span>LET'S TALK</span>
                             <span className="relative flex h-2 w-2">
-                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75 group-hover:bg-black"></span>
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400 group-hover:bg-black"></span>
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C0C0C0] opacity-75 group-hover:bg-black"></span>
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#C0C0C0] group-hover:bg-black"></span>
                             </span>
                         </a>
 
@@ -100,12 +124,13 @@ export default function Header() {
                         </button>
                     </div>
 
+                    </div>
                 </div>
             </header>
 
             {/* Card Menu Overlay */}
             <div
-                className={`fixed inset-0 z-[90] flex items-start justify-center overflow-y-auto bg-black/60 pt-10 pb-10 backdrop-blur-md transition-all duration-500 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                className={`fixed inset-0 z-[90]  mt-20 px-4 flex items-start justify-center overflow-y-auto bg-black/60 pt-10 pb-10 backdrop-blur-md transition-all duration-500 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                     }`}
             >
                 <div
@@ -122,11 +147,11 @@ export default function Header() {
                                         <div>
                                             <button
                                                 onClick={() => toggleAccordion(item.title)}
-                                                className="group flex w-full items-center justify-between text-2xl font-bold tracking-tight text-white transition-colors hover:text-cyan-400"
+                                                className="group flex w-full items-center justify-between text-2xl font-bold tracking-tight text-white transition-colors hover:text-[#C0C0C0]"
                                             >
                                                 <span>{item.title}</span>
                                                 <HiChevronDown
-                                                    className={`text-xl transition-transform duration-300 text-white group-hover:text-cyan-400 ${openAccordion === item.title ? 'rotate-180' : ''
+                                                    className={`text-xl transition-transform duration-300 text-white group-hover:text-[#C0C0C0] ${openAccordion === item.title ? 'rotate-180' : ''
                                                         }`}
                                                 />
                                             </button>
@@ -139,7 +164,7 @@ export default function Header() {
                                                             key={child.title}
                                                             href={child.href}
                                                             onClick={() => { setActiveLink(item.title); setIsMenuOpen(false); }}
-                                                            className="text-lg font-medium text-gray-400 hover:text-cyan-400 transition-colors"
+                                                            className="text-lg font-medium text-gray-400 hover:text-[#C0C0C0] transition-colors"
                                                         >
                                                             {child.title}
                                                         </a>
@@ -152,11 +177,11 @@ export default function Header() {
                                         <a
                                             href={item.href}
                                             onClick={() => { setActiveLink(item.title); setIsMenuOpen(false); }}
-                                            className="group flex items-center justify-between text-2xl font-bold tracking-tight text-white transition-colors hover:text-cyan-400"
+                                            className="group flex items-center justify-between text-2xl font-bold tracking-tight text-white transition-colors hover:text-[#C0C0C0]"
                                         >
                                             <span>{item.title}</span>
                                             {activeLink === item.title && (
-                                                <div className="h-2 w-2 rounded-full bg-cyan-400"></div>
+                                                <div className="h-2 w-2 rounded-full bg-[#C0C0C0]"></div>
                                             )}
                                         </a>
                                     )}
@@ -174,9 +199,9 @@ export default function Header() {
                             <input
                                 type="email"
                                 placeholder="Your email"
-                                className="w-full rounded-2xl bg-white/5 border border-white/10 px-6 py-4 text-white placeholder-gray-500 outline-none transition-all focus:border-cyan-400/50 focus:bg-white/10"
+                                className="w-full rounded-2xl bg-white/5 border border-white/10 px-6 py-4 text-white placeholder-gray-500 outline-none transition-all focus:border-[#C0C0C0]/50 focus:bg-white/10"
                             />
-                            <button className="absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black transition-transform hover:scale-105 hover:bg-cyan-400">
+                            <button className="absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black transition-transform hover:scale-105 hover:bg-[#C0C0C0]">
                                 <HiArrowRight className="text-xl" />
                             </button>
                         </div>

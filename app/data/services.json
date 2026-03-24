@@ -1,0 +1,194 @@
+[
+  {
+    "slug": "software-development",
+    "title": "Software Development",
+    "description": "Transform your vision into reality with cutting-edge software solutions. We build scalable, secure, and innovative applications that drive business growth and operational excellence.",
+    "tagline": "Modern, secure, and scalable products built for growth.",
+    "longDescription": "We design and build production-ready software that scales with your business—from idea to launch and beyond. Our approach focuses on clean architecture, security-by-default, and measurable performance so your product remains reliable as your users and data grow.",
+    "imageSrc": "/services/software-development.svg",
+    "highlights": ["Custom Applications", "Cloud Solutions", "API Integration", "Mobile Development"],
+    "deliverables": ["Product strategy & roadmap", "UI/UX and front-end engineering", "Backend APIs & integrations", "Cloud deployment & monitoring"],
+    "process": ["Discovery & planning", "Design & architecture", "Build & iterate", "Launch & support"],
+    "sections": [
+      {
+        "title": "What we build",
+        "content": [
+          "We build web apps, dashboards, internal tools, APIs, and mobile experiences that are designed to perform under real business pressure.",
+          "Whether you are launching a new product or rebuilding legacy systems, we focus on stable foundations, clear ownership, and predictable delivery." 
+        ]
+      },
+      {
+        "title": "Architecture & scalability",
+        "content": [
+          "We choose architecture based on your goals: speed to market, scalability, compliance, or long-term maintainability. This includes modular codebases, clean API contracts, and strong separation of concerns.",
+          "As you scale, we help you optimize performance, reduce bottlenecks, and improve reliability through caching strategies, observability, and smart infrastructure decisions." 
+        ]
+      },
+      {
+        "title": "Security & quality",
+        "content": [
+          "Security is built into the workflow: authentication patterns, safe data handling, and environment management are treated as first-class requirements.",
+          "We maintain quality with code reviews, automated checks, and a structured release process so you ship confidently." 
+        ]
+      },
+      {
+        "title": "Expected outcomes",
+        "content": [
+          "A maintainable codebase with clear architecture, reliable deployments, and measurable performance.",
+          "Faster iteration cycles with fewer production issues and improved developer velocity."
+        ]
+      },
+      {
+        "title": "Best for",
+        "content": [
+          "Startups shipping a product MVP or scaling an existing application.",
+          "Businesses modernizing legacy systems and building internal tools that reduce manual work."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "investment-management",
+    "title": "Investment Management",
+    "description": "Strategic portfolio management and financial advisory services designed to maximize returns while minimizing risk through data-driven insights and market expertise.",
+    "tagline": "Disciplined strategies built on data, risk control, and clarity.",
+    "longDescription": "We help you make confident investment decisions with structured portfolio strategy, risk analysis, and ongoing performance review. Our process prioritizes transparency and disciplined execution to align your capital with your goals.",
+    "imageSrc": "/services/investment-management.svg",
+    "highlights": ["Portfolio Strategy", "Risk Analysis", "Asset Allocation", "Market Research"],
+    "deliverables": ["Portfolio blueprint", "Risk profiling & reporting", "Asset allocation plan", "Ongoing review cadence"],
+    "process": ["Goal alignment", "Analysis & allocation", "Execution", "Review & rebalance"],
+    "sections": [
+      {
+        "title": "Strategy first, always",
+        "content": [
+          "Every portfolio starts with your objectives: time horizon, liquidity needs, risk appetite, and constraints. We turn that into a structured investment strategy that guides every decision.",
+          "We avoid reactive moves. Instead, we rely on disciplined frameworks and data-driven reasoning to stay aligned with long-term outcomes." 
+        ]
+      },
+      {
+        "title": "Risk management",
+        "content": [
+          "Risk is not a single number. We analyze volatility, drawdowns, concentration, correlations, and scenario impacts to understand what could go wrong—and how to reduce it.",
+          "Our goal is to protect downside while keeping the portfolio positioned for opportunity." 
+        ]
+      },
+      {
+        "title": "Monitoring & reporting",
+        "content": [
+          "We establish a review cadence with clear KPIs, performance summaries, and rebalancing triggers.",
+          "You get visibility into what is happening, why we are taking action, and what to expect next." 
+        ]
+      },
+      {
+        "title": "Expected outcomes",
+        "content": [
+          "A portfolio aligned with your goals, supported by clear risk controls and structured decision-making.",
+          "More confidence through transparent reporting and disciplined execution over time."
+        ]
+      },
+      {
+        "title": "Best for",
+        "content": [
+          "Individuals and businesses seeking long-term growth with risk awareness.",
+          "Investors who want clear, consistent oversight rather than reactive trading."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "business-development",
+    "title": "Business Development",
+    "description": "Accelerate your growth with comprehensive BD strategies. We identify opportunities, forge partnerships, and expand your market presence for sustainable success.",
+    "tagline": "Partnerships, pipelines, and positioning that drive revenue.",
+    "longDescription": "We build repeatable growth systems—market positioning, outreach playbooks, partnership strategy, and performance tracking. The outcome is a stronger pipeline and clearer go-to-market execution.",
+    "imageSrc": "/services/business-development.svg",
+    "highlights": ["Market Expansion", "Partnership Development", "Revenue Optimization", "Strategic Planning"],
+    "deliverables": ["Go-to-market strategy", "Partnership & channel plan", "Sales pipeline playbook", "KPIs & reporting framework"],
+    "process": ["Market research", "Positioning & messaging", "Pipeline build", "Optimize & scale"],
+    "sections": [
+      {
+        "title": "Go-to-market clarity",
+        "content": [
+          "We define who you serve, what you solve, and why you win. This creates consistent messaging across sales, partnerships, and marketing.",
+          "When positioning is clear, lead quality improves and teams execute faster." 
+        ]
+      },
+      {
+        "title": "Partnership & channel growth",
+        "content": [
+          "We identify partnership opportunities that match your product and market, then build a structured approach to outreach and negotiation.",
+          "The focus is on repeatable partnership pipelines—not one-off deals." 
+        ]
+      },
+      {
+        "title": "Pipeline systems",
+        "content": [
+          "We create playbooks for prospecting, qualification, follow-ups, and reporting so growth becomes measurable and scalable.",
+          "You get actionable KPIs, a clear cadence, and continuous improvement loops." 
+        ]
+      },
+      {
+        "title": "Expected outcomes",
+        "content": [
+          "Clear positioning, stronger partnerships, and a repeatable pipeline that drives predictable revenue.",
+          "Better lead quality and improved conversion through structured execution and tracking."
+        ]
+      },
+      {
+        "title": "Best for",
+        "content": [
+          "Teams entering new markets, launching a new offer, or building a channel strategy.",
+          "Businesses that need a repeatable process instead of ad-hoc deal chasing."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "digital-transformation",
+    "title": "Digital Transformation",
+    "description": "End-to-end digital solutions to modernize your enterprise infrastructure. We help you leverage technology to stay competitive in the digital age.",
+    "tagline": "Modern systems and automation for faster operations.",
+    "longDescription": "We modernize workflows, systems, and customer experiences with practical digital transformation. From automation to integration, we create scalable foundations that reduce friction and improve speed across your organization.",
+    "imageSrc": "/services/digital-transformation.svg",
+    "highlights": ["Process Automation", "Digital Strategy", "Change Management", "Technology Integration"],
+    "deliverables": ["Digital audit & roadmap", "Automation opportunities", "Systems integration plan", "Change enablement plan"],
+    "process": ["Assess", "Design", "Implement", "Enable & optimize"],
+    "sections": [
+      {
+        "title": "Audit & roadmap",
+        "content": [
+          "We start by mapping your current workflows, systems, and data flows. This reveals bottlenecks, duplicated effort, and opportunities for automation.",
+          "Then we deliver a roadmap with clear priorities, timelines, and measurable outcomes." 
+        ]
+      },
+      {
+        "title": "Automation & integration",
+        "content": [
+          "We automate repetitive processes and connect systems so information moves reliably between teams.",
+          "This reduces manual work, improves accuracy, and speeds up operations without disrupting core business." 
+        ]
+      },
+      {
+        "title": "Change enablement",
+        "content": [
+          "Transformation fails without adoption. We support rollout planning, documentation, and training so teams can confidently use the new systems.",
+          "You get a modern foundation that is sustainable—not just a short-term tool." 
+        ]
+      },
+      {
+        "title": "Expected outcomes",
+        "content": [
+          "Reduced operational friction through automation, better data flow, and faster decision-making.",
+          "Modernized systems that support growth without constantly increasing manual effort."
+        ]
+      },
+      {
+        "title": "Best for",
+        "content": [
+          "Organizations with fragmented tools/processes and repeated manual work.",
+          "Teams that want modern foundations without disrupting core business operations."
+        ]
+      }
+    ]
+  }
+]

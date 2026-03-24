@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#050505"/>
+      <stop offset="55%" stop-color="#0d0d0d"/>
+      <stop offset="100%" stop-color="#C0C0C0" stop-opacity="0.18"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#C0C0C0" stop-opacity="0.22"/>
+      <stop offset="60%" stop-color="#C0C0C0" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+
+  <g fill="none" stroke="#C0C0C0" stroke-opacity="0.22">
+    <path d="M120 760 C420 640, 620 840, 920 720 S1380 600, 1500 760" stroke-width="3"/>
+    <path d="M160 820 C420 700, 650 900, 980 770 S1400 680, 1500 840" stroke-width="2"/>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto" fill="#ffffff">
+    <text x="110" y="140" font-size="22" letter-spacing="6" fill-opacity="0.75">BARRWIT INTERNATIONAL</text>
+    <text x="110" y="220" font-size="66" font-weight="700">Software Development</text>
+    <text x="110" y="280" font-size="26" fill="#cfcfcf" fill-opacity="0.9">Dummy banner image</text>
+  </g>
+
+  <g fill="#C0C0C0" fill-opacity="0.12">
+    <circle cx="1320" cy="220" r="160"/>
+    <circle cx="1240" cy="720" r="220"/>
+  </g>
+</svg>

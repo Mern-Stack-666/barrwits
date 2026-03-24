@@ -1,39 +1,10 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { HiCode, HiTrendingUp, HiLightningBolt } from 'react-icons/hi';
-import { FaRocket } from 'react-icons/fa';
+import Link from 'next/link';
+import Image from 'next/image';
 
-const services = [
-    {
-        number: "01",
-        title: "Software Development",
-        description: "Transform your vision into reality with cutting-edge software solutions. We build scalable, secure, and innovative applications that drive business growth and operational excellence.",
-        icon: HiCode,
-        features: ["Custom Applications", "Cloud Solutions", "API Integration", "Mobile Development"]
-    },
-    {
-        number: "02",
-        title: "Investment Management",
-        description: "Strategic portfolio management and financial advisory services designed to maximize returns while minimizing risk through data-driven insights and market expertise.",
-        icon: HiTrendingUp,
-        features: ["Portfolio Strategy", "Risk Analysis", "Asset Allocation", "Market Research"]
-    },
-    {
-        number: "03",
-        title: "Business Development",
-        description: "Accelerate your growth with comprehensive BD strategies. We identify opportunities, forge partnerships, and expand your market presence for sustainable success.",
-        icon: FaRocket,
-        features: ["Market Expansion", "Partnership Development", "Revenue Optimization", "Strategic Planning"]
-    },
-    {
-        number: "04",
-        title: "Digital Transformation",
-        description: "End-to-end digital solutions to modernize your enterprise infrastructure. We help you leverage technology to stay competitive in the digital age.",
-        icon: HiLightningBolt,
-        features: ["Process Automation", "Digital Strategy", "Change Management", "Technology Integration"]
-    }
-];
+import { services } from '../data/services';
 
 export default function Services() {
     const [isVisible, setIsVisible] = useState(false);
@@ -61,18 +32,18 @@ export default function Services() {
         <section
             ref={sectionRef}
             id="services"
-            className="relative w-full bg-gradient-to-b from-black via-zinc-950 to-black px-6 pb-20"
+            className="relative w-full bg-linear-to-b from-black via-zinc-950 to-black px-6 pb-8 md:pb-12"
         >
             <div className="mx-auto max-w-7xl">
 
                 {/* Section Header */}
                 <div className={`mb-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 backdrop-blur-sm">
-                        <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></div>
-                        <span className="text-xs font-medium tracking-widest text-cyan-400">OUR EXPERTISE</span>
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
+                        <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
+                        <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">OUR EXPERTISE</span>
                     </div>
                     <h2 className="mb-6 text-5xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
-                        Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-white">Services</span>
+                        Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">Services</span>
                     </h2>
                     <p className="max-w-3xl text-xl text-gray-400 leading-relaxed">
                         Delivering world-class solutions across software, investment, and business development with unmatched expertise and innovation.
@@ -80,73 +51,67 @@ export default function Services() {
                 </div>
 
                 {/* Services Grid */}
-                <div className="grid gap-8 lg:grid-cols-2">
+                <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {services.map((service, index) => {
-                        const IconComponent = service.icon;
                         return (
                             <div
                                 key={index}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                                 className={`group relative overflow-hidden rounded-3xl border transition-all duration-700 ${hoveredIndex === index
-                                    ? 'border-cyan-400/50 bg-gradient-to-br from-cyan-400/10 via-transparent to-transparent shadow-[0_0_60px_rgba(0,255,255,0.25)]'
-                                    : 'border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-cyan-400/30'
+                                    ? 'border-[#C0C0C0]/50 bg-gradient-to-br from-[#C0C0C0]/10 via-transparent to-transparent shadow-[0_0_60px_rgba(192,192,192,0.25)]'
+                                    : 'border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#C0C0C0]/30'
                                     } ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}
                                 style={{ animationDelay: `${index * 0.15}s` }}
                             >
-                                <div className="p-10 lg:p-12">
+                                <div className="flex flex-col">
 
-                                    {/* Top - Number & Icon */}
-                                    <div className="mb-8 flex items-start justify-between">
-                                        <div className={`text-7xl font-bold transition-all duration-500 lg:text-8xl ${hoveredIndex === index
-                                            ? 'text-transparent bg-clip-text bg-gradient-to-br from-cyan-400 to-white'
-                                            : 'text-white/10'
-                                            }`}>
-                                            {service.number}
+                                    <div className="relative h-48 w-full sm:h-56">
+                                        <Image
+                                            src={service.imageSrc}
+                                            alt={service.title}
+                                            fill
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
+                                            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                                            priority={index === 0}
+                                        />
+                                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80"></div>
+
+                                        <div className="absolute bottom-4 left-4 right-4">
+                                            <h3 className="text-xl sm:text-2xl font-bold text-white">
+                                                {service.title}
+                                            </h3>
                                         </div>
-                                        <IconComponent className={`text-5xl text-cyan-400 transition-transform duration-500 ${hoveredIndex === index ? 'scale-110' : 'scale-100'
-                                            }`} />
                                     </div>
 
-                                    {/* Title */}
-                                    <h3 className="mb-4 text-3xl font-bold text-white lg:text-4xl">
-                                        {service.title}
-                                    </h3>
+                                    <div className="p-5 sm:p-6 lg:p-8">
+                                        <p className="text-sm sm:text-base leading-relaxed text-gray-300 lg:text-lg">
+                                            {service.description}
+                                        </p>
 
-                                    {/* Description */}
-                                    <p className="mb-8 text-lg leading-relaxed text-gray-300">
-                                        {service.description}
-                                    </p>
-
-                                    {/* Features */}
-                                    <div className="mb-8 grid grid-cols-2 gap-3">
-                                        {service.features.map((feature, fIndex) => (
-                                            <div
-                                                key={fIndex}
-                                                className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/10"
+                                        <div className="mt-6 flex items-center justify-between">
+                                            <Link
+                                                href={`/services/${service.slug}`}
+                                                className="group/btn flex items-center gap-2 text-sm font-semibold tracking-wider text-[#C0C0C0] transition-all duration-300 hover:gap-4"
                                             >
-                                                <div className="h-1.5 w-1.5 rounded-full bg-cyan-400"></div>
-                                                <span className="text-sm font-medium text-gray-300">
-                                                    {feature}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
+                                                <span>Explore Service</span>
+                                                <svg className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                </svg>
+                                            </Link>
 
-                                    {/* CTA */}
-                                    <button className="group/btn flex items-center gap-2 text-sm font-semibold tracking-wider text-cyan-400 transition-all duration-300 hover:gap-4">
-                                        <span>Explore Service</span>
-                                        <svg className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                        </svg>
-                                    </button>
+                                            <div className="text-xs font-medium tracking-widest text-white/40">
+                                                VIEW DETAILS
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
                                 {/* Animated glow border */}
-                                <div className={`absolute inset-0 rounded-3xl transition-opacity duration-700 ${hoveredIndex === index ? 'opacity-100' : 'opacity-0'
+                                <div className={`pointer-events-none absolute inset-0 rounded-3xl transition-opacity duration-700 ${hoveredIndex === index ? 'opacity-100' : 'opacity-0'
                                     }`}>
-                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-400/20 via-transparent to-cyan-400/20 blur-2xl"></div>
+                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#C0C0C0]/20 via-transparent to-[#C0C0C0]/20 blur-2xl"></div>
                                 </div>
                             </div>
                         );
