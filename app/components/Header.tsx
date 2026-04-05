@@ -5,19 +5,19 @@ import { useState, useEffect } from 'react';
 import { HiArrowRight, HiArrowUpRight, HiChevronDown } from 'react-icons/hi2';
 
 const menuItems = [
-    { title: 'HOME', href: '#home' },
-    { title: 'ABOUT US', href: '/about' },
+    { title: 'HOME', href: '/' },
+    { title: 'ABOUT', href: '/about' },
     {
         title: 'SERVICES',
         children: [
-            { title: 'Software Development', href: '#services' },
-            { title: 'Investment Management', href: '#services' },
-            { title: 'Business Development', href: '#services' },
-            { title: 'Digital Transformation', href: '#services' }
+            { title: 'Software Development', href: '/services/software-development' },
+            { title: 'Investment Management', href: '/services/investment-management' },
+            { title: 'Business Development', href: '/services/business-development' },
+            { title: 'Digital Transformation', href: '/services/digital-transformation' }
         ]
     },
-    { title: 'PROJECTS', href: '#testimonials' }, // Changed to testimonials as projects section isn't explicit yet
-    { title: 'CONTACT', href: '#contact' }
+    { title: 'PROJECTS', href: '/projects' },
+    { title: 'CONTACT', href: '/contact' }
 ];
 
 export default function Header() {
@@ -91,8 +91,8 @@ export default function Header() {
                     <div className="flex items-center gap-4 pointer-events-auto">
 
                         {/* 2. LET'S TALK Pill */}
-                        <a
-                            href="#contact"
+                        <Link
+                            href="/contact"
                             className="group hidden h-12 items-center gap-3 rounded-full bg-[#1a1a1a] px-6 text-sm font-bold tracking-widest text-white transition-all duration-300 hover:bg-[#C0C0C0] hover:text-black md:flex shadow-lg"
                         >
                             <span>LET'S TALK</span>
@@ -100,7 +100,7 @@ export default function Header() {
                                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C0C0C0] opacity-75 group-hover:bg-black"></span>
                                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#C0C0C0] group-hover:bg-black"></span>
                             </span>
-                        </a>
+                        </Link>
 
                         {/* 3. MENU / CLOSE Pill */}
                         <button
@@ -160,21 +160,21 @@ export default function Header() {
                                                 }`}>
                                                 <div className="flex flex-col gap-3 pl-4 border-l-2 border-white/10">
                                                     {item.children.map((child) => (
-                                                        <a
+                                                        <Link
                                                             key={child.title}
                                                             href={child.href}
                                                             onClick={() => { setActiveLink(item.title); setIsMenuOpen(false); }}
                                                             className="text-lg font-medium text-gray-400 hover:text-[#C0C0C0] transition-colors"
                                                         >
                                                             {child.title}
-                                                        </a>
+                                                        </Link>
                                                     ))}
                                                 </div>
                                             </div>
                                         </div>
                                     ) : (
                                         // Regular Link
-                                        <a
+                                        <Link
                                             href={item.href}
                                             onClick={() => { setActiveLink(item.title); setIsMenuOpen(false); }}
                                             className="group flex items-center justify-between text-2xl font-bold tracking-tight text-white transition-colors hover:text-[#C0C0C0]"
@@ -183,7 +183,7 @@ export default function Header() {
                                             {activeLink === item.title && (
                                                 <div className="h-2 w-2 rounded-full bg-[#C0C0C0]"></div>
                                             )}
-                                        </a>
+                                        </Link>
                                     )}
                                 </div>
                             ))}

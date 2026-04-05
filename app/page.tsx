@@ -1,3 +1,5 @@
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import WhatWeDo from "./components/WhatWeDo";
 import Services from "./components/Services";
@@ -9,17 +11,19 @@ import CTA from "./components/CTA";
 
 export default function Home() {
   return (
-    <main className="bg-black">
-      {/* <div className=" border-b border-white/10"> */}
-      <Hero />
-      {/* </div> */}
-      <WhatWeDo />
-      <Services />
-      <WhyChooseUs />
-      <About />
-      <FAQ />
-      <Testimonials />
-      <CTA />
-    </main>
+    <>
+      <Header />
+      <main className="bg-black">
+        <Hero />
+        <WhatWeDo />
+        <Services />
+        <WhyChooseUs />
+        <About />
+        <FAQ />
+        <Testimonials />
+        <CTA />
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import AuthProvider from "@/components/AuthProvider";
 
 const redHatDisplay = localFont({
   src: [
@@ -26,19 +25,19 @@ export const metadata: Metadata = {
   description: "An organization where you find growth, not just for businesses but for people who live in something big.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // We can't access pathname in root layout, so we'll use a different approach
+  // Header and Footer will be included here, but admin layout will override them
   return (
     <html lang="en">
-      <body
-        className={`${redHatDisplay.variable} font-sans antialiased`}
-      >
-        <Header />
-        {children}
-        <Footer />
+      <body className={`${redHatDisplay.variable} font-sans antialiased`}>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
