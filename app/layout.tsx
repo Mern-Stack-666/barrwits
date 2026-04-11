@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import AuthProvider from "@/components/AuthProvider";
 import CustomCursor from "./components/CustomCursor";
 import SiteMotion from "./components/SiteMotion";
@@ -37,6 +37,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${redHatDisplay.variable} font-sans antialiased`}>
+        <SpeedInsights />
         <AuthProvider>
           <CustomCursor />
           <SiteMotion />
