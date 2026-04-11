@@ -9,7 +9,7 @@ import gsap from 'gsap';
 export default function Hero() {
     const [isVisible, setIsVisible] = useState(false);
     const [typedText, setTypedText] = useState("");
-    const fullText = "INTERNATIONAL CONSULTING";
+    const fullText = "AI CONSULTING & WEB DEV";
 
     // 3D Tilt State
     const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -23,6 +23,29 @@ export default function Hero() {
 
     useEffect(() => {
         setIsVisible(true);
+        const heroElement = heroRef.current;
+        const handleHeroMouseMove = (e: MouseEvent) => {
+            const { clientX, clientY } = e;
+            const { innerWidth, innerHeight } = window;
+            
+            const xPos = (clientX / innerWidth - 0.5) * 20;
+            const yPos = (clientY / innerHeight - 0.5) * 20;
+
+            // Subtle parallax on different elements
+            gsap.to(contentRef.current, {
+                x: xPos * 0.5,
+                y: yPos * 0.5,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+
+            gsap.to(imageRef.current, {
+                x: -xPos * 0.8,
+                y: -yPos * 0.8,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+        };
 
         // GSAP Animations
         const ctx = gsap.context(() => {
@@ -84,33 +107,17 @@ export default function Hero() {
             });
 
             // Mouse parallax effect on content
-            if (heroRef.current) {
-                heroRef.current.addEventListener('mousemove', (e: MouseEvent) => {
-                    const { clientX, clientY } = e;
-                    const { innerWidth, innerHeight } = window;
-                    
-                    const xPos = (clientX / innerWidth - 0.5) * 20;
-                    const yPos = (clientY / innerHeight - 0.5) * 20;
-
-                    // Subtle parallax on different elements
-                    gsap.to(contentRef.current, {
-                        x: xPos * 0.5,
-                        y: yPos * 0.5,
-                        duration: 0.5,
-                        ease: 'power2.out'
-                    });
-
-                    gsap.to(imageRef.current, {
-                        x: -xPos * 0.8,
-                        y: -yPos * 0.8,
-                        duration: 0.5,
-                        ease: 'power2.out'
-                    });
-                });
+            if (heroElement) {
+                heroElement.addEventListener('mousemove', handleHeroMouseMove);
             }
         }, heroRef);
 
-        return () => ctx.revert();
+        return () => {
+            if (heroElement) {
+                heroElement.removeEventListener('mousemove', handleHeroMouseMove);
+            }
+            ctx.revert();
+        };
     }, []);
 
     // Typewriter effect
@@ -176,11 +183,12 @@ export default function Hero() {
                         ref={headingRef}
                         className="mb-2 md:mb-6 text-[34px] font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-4xl xl:text-7xl"
                     >
-                        An organization where you find{" "}
+                        Build with{" "}
                         <span className="relative inline-block">
-                            <span className="relative z-10 text-transparent bg-clip-text bg-linear-to-r from-[#C0C0C0] via-white to-[#C0C0C0] animate-gradient-x bg-size-[200%_auto]">growth</span>
+                            <span className="relative z-10 text-transparent bg-clip-text bg-linear-to-r from-[#C0C0C0] via-white to-[#C0C0C0] animate-gradient-x bg-size-[200%_auto]">AI-powered strategy</span>
                             {/* <span className="absolute -bottom-1 left-0 h-1 w-full bg-cyan-400/30 blur-sm lg:-bottom-2"></span> */}
-                        </span>
+                        </span>{" "}
+                        and launch-ready web experiences
                     </h1>
 
                     {/* Description */}
@@ -188,7 +196,7 @@ export default function Hero() {
                         ref={descriptionRef}
                         className="mb-4 max-w-xl text-base xl:text-lg font-light leading-relaxed text-gray-300 lg:mb-6 xl:mb-10 lg:text-2xl"
                     >
-                        Not just for businesses but for people who live in something big. Barrwit International is the game changer when it comes to software, investment management and BD.
+                        We help ambitious teams plan, design, and launch intelligent websites, automation flows, and digital systems that turn ideas into measurable growth.
                     </p>
 
                     {/* Buttons */}
@@ -207,7 +215,7 @@ export default function Hero() {
                         >
                             <span className="relative z-10 flex items-center justify-center gap-2">
                                 <span className="text-sm lg:text-base">
-                                DISCOVER MORE
+                                EXPLORE SERVICES
                                 </span>
                                 <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -288,7 +296,7 @@ export default function Hero() {
                             <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/5">
                                 <Image
                                     src="/hero-banner.webp"
-                                    alt="Barrwit Visual"
+                                    alt="AI consulting and web development showcase"
                                     fill
                                     className="object-cover transition-transform duration-700 hover:scale-105"
                                     priority
@@ -301,8 +309,8 @@ export default function Hero() {
                                     <HiChartBar className="text-xl" />
                                 </div>
                                 <div>
-                                    <div className="text-sm font-bold text-white">Analytics</div>
-                                    <div className="text-xs text-gray-400 text-[#C0C0C0]">+245% Growth</div>
+                                    <div className="text-sm font-bold text-white">AI Systems</div>
+                                    <div className="text-xs text-gray-400 text-[#C0C0C0]">Automation-first delivery</div>
                                 </div>
                             </div>
 
@@ -312,15 +320,15 @@ export default function Hero() {
                                     <HiGlobeAlt className="text-xl" />
                                 </div>
                                 <div>
-                                    <div className="text-sm font-bold text-white">Global Reach</div>
-                                    <div className="text-xs text-gray-400">25+ Countries</div>
+                                    <div className="text-sm font-bold text-white">Web Platforms</div>
+                                    <div className="text-xs text-gray-400">Fast, scalable builds</div>
                                 </div>
                             </div>
 
                             {/* Floating Badge 3 - Bottom Left (Small) */}
                             <div className="absolute -bottom-4 left-8 hidden animate-float-slow items-center gap-2 rounded-full border border-white/10 bg-black/80 px-4 py-2 shadow-xl backdrop-blur-md lg:-bottom-6 lg:left-12 lg:flex">
                                 <HiShieldCheck className="text-green-400" />
-                                <span className="text-xs font-bold text-white">ISO Certified</span>
+                                <span className="text-xs font-bold text-white">Strategy Led</span>
                             </div>
 
                         </div>

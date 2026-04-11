@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
 
 const faqs = [
@@ -31,26 +31,7 @@ const faqs = [
 ];
 
 export default function FAQ() {
-    const [isVisible, setIsVisible] = useState(false);
     const [openIndex, setOpenIndex] = useState<number | null>(0);
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
 
     const toggleFAQ = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
@@ -58,14 +39,14 @@ export default function FAQ() {
 
     return (
         <section
-            ref={sectionRef}
+            data-gsap="section"
             id="faq"
             className="relative w-full bg-gradient-to-b from-black via-zinc-950 to-black px-4 sm:px-6 py-8 md:py-12"
         >
             <div className="mx-auto max-w-4xl">
 
                 {/* Section Header */}
-                <div className={`mb-10 md:mb-16 text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+                <div data-gsap="heading" className="mb-10 md:mb-16 text-center">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
                         <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
                         <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">FAQ</span>
@@ -80,10 +61,11 @@ export default function FAQ() {
                 </div>
 
                 {/* FAQ Accordion */}
-                <div className={`space-y-3 sm:space-y-4 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+                <div data-gsap="grid" className="space-y-3 sm:space-y-4">
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
+                            data-gsap-item
                             className={`group overflow-hidden rounded-2xl border transition-all duration-500 ${openIndex === index
                                 ? 'border-[#C0C0C0]/50 bg-gradient-to-br from-[#C0C0C0]/10 via-transparent to-transparent shadow-[0_0_40px_rgba(192,192,192,0.15)]'
                                 : 'border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#C0C0C0]/30'
@@ -122,7 +104,7 @@ export default function FAQ() {
                 </div>
 
                 {/* CTA */}
-                <div className={`mt-10 text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '0.4s' }}>
+                <div data-gsap="cta" className="mt-10 text-center">
                     <p className="mb-6 text-sm sm:text-base lg:text-lg text-gray-400">
                         Still have questions? We're here to help.
                     </p>

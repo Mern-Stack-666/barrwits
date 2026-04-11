@@ -5,7 +5,7 @@ import { HiMail } from 'react-icons/hi';
 
 export default function Footer() {
     return (
-        <footer className="relative w-full border-t border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black px-6 py-8 md:py-20 md:px-12 lg:px-24">
+        <footer data-gsap="footer" className="relative w-full border-t border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black px-6 py-8 md:py-20 md:px-12 lg:px-24">
             {/* Background Glow */}
             <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-full bg-gradient-to-t from-white/5 to-transparent"></div>
 

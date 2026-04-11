@@ -46,18 +46,18 @@ export default async function ProjectsPage() {
         className="relative w-full px-4 sm:px-6 pt-32 pb-16 md:pt-40 md:pb-24"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="text-center animate-fade-in-up">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-5 py-2 backdrop-blur-sm">
+          <div data-gsap="hero" className="text-center">
+            <div data-gsap-item className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-5 py-2 backdrop-blur-sm">
               <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
               <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">OUR PORTFOLIO</span>
             </div>
-            <h1 className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
+            <h1 data-gsap-item className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
               Success Stories That{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
                 Speak Volumes
               </span>
             </h1>
-            <p className="mx-auto max-w-3xl text-lg sm:text-xl text-gray-400 leading-relaxed">
+            <p data-gsap-item className="mx-auto max-w-3xl text-lg sm:text-xl text-gray-400 leading-relaxed">
               Explore our track record of transformative projects that have driven growth, innovation, and lasting impact for clients worldwide.
             </p>
           </div>
@@ -67,7 +67,7 @@ export default async function ProjectsPage() {
       {/* Featured Projects */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12">
+          <div data-gsap="heading" className="mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
               Featured{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
@@ -79,12 +79,13 @@ export default async function ProjectsPage() {
             </p>
           </div>
 
-          <div className="space-y-12">
+          <div data-gsap="grid" className="space-y-12">
             {featuredProjects.map((project: any, index: number) => {
               const IconComponent = iconMap[project.category] || HiGlobe;
               return (
                 <div
                   key={project._id}
+                  data-gsap-item
                   className={`group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30 ${
                     index % 2 === 0 ? 'lg:grid lg:grid-cols-2' : 'lg:grid lg:grid-cols-2 lg:direction-rtl'
                   }`}
@@ -155,7 +156,7 @@ export default async function ProjectsPage() {
       {/* All Projects with Filter */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12">
+          <div data-gsap="heading" className="mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8">
               All{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
@@ -165,12 +166,13 @@ export default async function ProjectsPage() {
           </div>
 
           {/* Projects Grid */}
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div data-gsap="grid" className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {otherProjects.map((project: any) => {
               const IconComponent = iconMap[project.category] || HiGlobe;
               return (
                 <div
                   key={project._id}
+                  data-gsap-item
                   className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30 hover:shadow-[0_0_40px_rgba(192,192,192,0.1)]"
                 >
                   {/* Image */}
@@ -233,8 +235,8 @@ export default async function ProjectsPage() {
       {/* Stats Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-16 backdrop-blur-sm">
-            <div className="text-center mb-12">
+          <div data-gsap="copy" className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-16 backdrop-blur-sm">
+            <div data-gsap="heading" className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
                 Our Impact{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
@@ -243,8 +245,8 @@ export default async function ProjectsPage() {
               </h2>
             </div>
 
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="text-center">
+            <div data-gsap="grid" className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <div data-gsap-item className="text-center">
                 <div className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[#C0C0C0] mb-2">
                   150+
                 </div>
@@ -252,7 +254,7 @@ export default async function ProjectsPage() {
                 <div className="text-xs text-gray-400">Across all sectors</div>
               </div>
 
-              <div className="text-center">
+              <div data-gsap-item className="text-center">
                 <div className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[#C0C0C0] mb-2">
                   95%
                 </div>
@@ -260,7 +262,7 @@ export default async function ProjectsPage() {
                 <div className="text-xs text-gray-400">Long-term partnerships</div>
               </div>
 
-              <div className="text-center">
+              <div data-gsap-item className="text-center">
                 <div className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[#C0C0C0] mb-2">
                   $3B+
                 </div>
@@ -268,7 +270,7 @@ export default async function ProjectsPage() {
                 <div className="text-xs text-gray-400">For our clients</div>
               </div>
 
-              <div className="text-center">
+              <div data-gsap-item className="text-center">
                 <div className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[#C0C0C0] mb-2">
                   30+
                 </div>
@@ -282,7 +284,7 @@ export default async function ProjectsPage() {
 
       {/* CTA Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
-        <div className="mx-auto max-w-4xl text-center">
+        <div data-gsap="cta" className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Create Your{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">

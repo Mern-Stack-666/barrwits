@@ -1,43 +1,24 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { services } from '../data/services';
 
 export default function Services() {
-    const [isVisible, setIsVisible] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
 
     return (
         <section
-            ref={sectionRef}
+            data-gsap="section"
             id="services"
             className="relative w-full bg-linear-to-b from-black via-zinc-950 to-black px-6 pb-8 md:pb-12"
         >
             <div className="mx-auto max-w-7xl">
 
                 {/* Section Header */}
-                <div className={`mb-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+                <div data-gsap="heading" className="mb-20">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
                         <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
                         <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">OUR EXPERTISE</span>
@@ -51,18 +32,18 @@ export default function Services() {
                 </div>
 
                 {/* Services Grid */}
-                <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div data-gsap="grid" className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {services.map((service, index) => {
                         return (
                             <div
                                 key={index}
+                                data-gsap-item
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                                 className={`group relative overflow-hidden rounded-3xl border transition-all duration-700 ${hoveredIndex === index
                                     ? 'border-[#C0C0C0]/50 bg-gradient-to-br from-[#C0C0C0]/10 via-transparent to-transparent shadow-[0_0_60px_rgba(192,192,192,0.25)]'
                                     : 'border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#C0C0C0]/30'
-                                    } ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}
-                                style={{ animationDelay: `${index * 0.15}s` }}
+                                    }`}
                             >
                                 <div className="flex flex-col">
 

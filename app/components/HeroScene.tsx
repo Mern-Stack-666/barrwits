@@ -1,130 +1,86 @@
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useRef, useMemo, useState, useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import gsap from 'gsap';
 
-// Floating Geometric Shapes with Mouse Interaction
-function FloatingShapes() {
-  const groupRef = useRef<THREE.Group>(null);
-  const { mouse, viewport } = useThree();
-  
-  const shapes = useMemo(() => {
-    return Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      position: [
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 15,
-        (Math.random() - 0.5) * 10 - 5
-      ],
-      scale: Math.random() * 0.5 + 0.3,
-      rotationSpeed: Math.random() * 0.02 + 0.01,
-      type: Math.random() > 0.5 ? 'box' : 'sphere',
-      color: Math.random() > 0.5 ? '#00ffff' : '#C0C0C0'
-    }));
-  }, []);
+const palette = {
+  glow: '#67e8f9',
+  glowSoft: '#38bdf8',
+  silver: '#d4d4d8',
+  panel: '#0f172a',
+  mist: '#94a3b8',
+  void: '#020617',
+};
 
-  useFrame((state) => {
-    if (!groupRef.current) return;
-
-    // Smooth mouse follow
-    const targetX = mouse.x * 2;
-    const targetY = mouse.y * 2;
-    
-    groupRef.current.rotation.x += (targetY * 0.3 - groupRef.current.rotation.x) * 0.05;
-    groupRef.current.rotation.y += (targetX * 0.3 - groupRef.current.rotation.y) * 0.05;
-
-    // Animate individual children
-    groupRef.current.children.forEach((child, i) => {
-      child.rotation.x += shapes[i].rotationSpeed;
-      child.rotation.y += shapes[i].rotationSpeed;
-      
-      // Gentle floating motion
-      child.position.y += Math.sin(state.clock.getElapsedTime() + i) * 0.002;
-    });
-  });
-
-  return (
-    <group ref={groupRef}>
-      {shapes.map((shape) => (
-        <mesh
-          key={shape.id}
-          position={shape.position as [number, number, number]}
-          scale={shape.scale}
-        >
-          {shape.type === 'box' ? (
-            <boxGeometry args={[1, 1, 1]} />
-          ) : (
-            <sphereGeometry args={[0.6, 16, 16]} />
-          )}
-          <meshStandardMaterial
-            color={shape.color}
-            transparent
-            opacity={0.4}
-            metalness={0.8}
-            roughness={0.2}
-            wireframe
-          />
-        </mesh>
-      ))}
-    </group>
-  );
+function seededUnit(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
 }
 
-// Interactive Particle Trail
-function ParticleTrail() {
-  const { mouse, viewport } = useThree();
-  const particlesRef = useRef<THREE.Points>(null);
-  const trailRef = useRef<Array<{ x: number; y: number; z: number }>>([]);
-  const maxTrailLength = 50;
+type NodeVariant = 'website' | 'strategy' | 'automation';
+
+const orbitNodes: Array<{
+  position: [number, number, number];
+  accent: string;
+  variant: NodeVariant;
+  scale: number;
+}> = [
+  {
+    position: [4.4, 1.8, 0.2],
+    accent: palette.glow,
+    variant: 'website',
+    scale: 1,
+  },
+  {
+    position: [-3.7, -1.3, 1.2],
+    accent: palette.silver,
+    variant: 'strategy',
+    scale: 0.94,
+  },
+  {
+    position: [1.3, -3.7, -0.8],
+    accent: palette.glowSoft,
+    variant: 'automation',
+    scale: 0.84,
+  },
+];
+
+function AmbientParticles({ count }: { count: number }) {
+  const pointsRef = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
-    return new Float32Array(maxTrailLength * 3);
-  }, []);
+    const values = new Float32Array(count * 3);
 
-  useFrame(() => {
-    if (!particlesRef.current) return;
-
-    // Add current mouse position to trail
-    const x = (mouse.x * viewport.width) / 2;
-    const y = (mouse.y * viewport.height) / 2;
-    const z = 0;
-
-    trailRef.current.unshift({ x, y, z });
-    if (trailRef.current.length > maxTrailLength) {
-      trailRef.current.pop();
+    for (let index = 0; index < count; index += 1) {
+      values[index * 3] = (seededUnit(index + 1) - 0.5) * 22;
+      values[index * 3 + 1] = (seededUnit(index + count + 7) - 0.5) * 16;
+      values[index * 3 + 2] = (seededUnit(index + count * 2 + 13) - 0.5) * 18;
     }
 
-    // Update particle positions using Three.js API
-    const geometry = particlesRef.current.geometry;
-    const positionAttribute = geometry.getAttribute('position');
-    
-    trailRef.current.forEach((point, i) => {
-      if (i < maxTrailLength) {
-        positionAttribute.setXYZ(i, point.x, point.y, point.z);
-      }
-    });
-    
-    positionAttribute.needsUpdate = true;
+    return values;
+  }, [count]);
+
+  useFrame((state) => {
+    if (!pointsRef.current) {
+      return;
+    }
+
+    const elapsed = state.clock.getElapsedTime();
+    pointsRef.current.rotation.y = elapsed * 0.02;
+    pointsRef.current.rotation.x = Math.sin(elapsed * 0.15) * 0.04;
   });
 
   return (
-    <points ref={particlesRef}>
+    <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-          count={maxTrailLength}
-          array={positions}
-          itemSize={3}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.15}
-        color="#00ffff"
+        size={0.06}
+        color={palette.silver}
         transparent
-        opacity={0.8}
+        opacity={0.35}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
       />
@@ -132,159 +88,349 @@ function ParticleTrail() {
   );
 }
 
-// Morphing Central Object
-function MorphingCore() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const { mouse } = useThree();
-  const [hovered, setHovered] = useState(false);
-
-  useFrame((state) => {
-    if (!meshRef.current) return;
-
-    // Rotate based on mouse position
-    const targetRotX = mouse.y * Math.PI * 0.3;
-    const targetRotY = mouse.x * Math.PI * 0.3;
-    
-    meshRef.current.rotation.x += (targetRotX - meshRef.current.rotation.x) * 0.1;
-    meshRef.current.rotation.y += (targetRotY - meshRef.current.rotation.y) * 0.1;
-
-    // Pulse effect
-    const scale = hovered ? 1.3 : 1;
-    meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
-  });
-
-  return (
-    <mesh
-      ref={meshRef}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    >
-      <icosahedronGeometry args={[2, 1]} />
-      <meshStandardMaterial
-        color={hovered ? '#ff006e' : '#00ffff'}
-        emissive={hovered ? '#ff006e' : '#00ffff'}
-        emissiveIntensity={hovered ? 0.5 : 0.2}
-        wireframe
-        transparent
-        opacity={0.6}
-        metalness={0.9}
-        roughness={0.1}
-      />
-    </mesh>
-  );
-}
-
-// Animated Ring System
-function RingSystem() {
+function SignalGrid({ isMobile }: { isMobile: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
+  const scanRef = useRef<THREE.Mesh>(null);
   const { mouse } = useThree();
 
   useFrame((state) => {
-    if (!groupRef.current) return;
+    if (!groupRef.current || !scanRef.current) {
+      return;
+    }
 
-    // Rotate rings
-    groupRef.current.rotation.z = state.clock.getElapsedTime() * 0.1;
-    
-    // Tilt based on mouse
-    const targetTiltX = mouse.y * 0.5;
-    const targetTiltY = mouse.x * 0.5;
-    
-    groupRef.current.rotation.x += (targetTiltX - groupRef.current.rotation.x) * 0.05;
-    groupRef.current.rotation.y += (targetTiltY - groupRef.current.rotation.y) * 0.05;
+    const elapsed = state.clock.getElapsedTime();
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      -1.08 + mouse.y * 0.08,
+      0.04
+    );
+    groupRef.current.rotation.z = THREE.MathUtils.lerp(
+      groupRef.current.rotation.z,
+      -0.08 + mouse.x * 0.04,
+      0.04
+    );
+    scanRef.current.position.z = Math.sin(elapsed * 0.9) * 2.6;
   });
 
   return (
-    <group ref={groupRef}>
-      {[1.5, 2.5, 3.5].map((radius, i) => (
-        <mesh key={i} rotation={[Math.PI / 2 + i * 0.3, 0, 0]}>
-          <torusGeometry args={[radius, 0.03, 16, 100]} />
-          <meshBasicMaterial
-            color={i === 0 ? '#00ffff' : i === 1 ? '#C0C0C0' : '#ffffff'}
-            transparent
-            opacity={0.4 - i * 0.1}
-          />
-        </mesh>
-      ))}
+    <group
+      ref={groupRef}
+      position={isMobile ? [0, -4.6, -6.5] : [2.6, -4.6, -6.5]}
+      rotation={[-1.08, 0.12, -0.08]}
+    >
+      <gridHelper args={[18, 18, palette.glowSoft, palette.mist]} />
+      <mesh ref={scanRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+        <planeGeometry args={[18, 0.55]} />
+        <meshBasicMaterial
+          color={palette.glow}
+          transparent
+          opacity={0.18}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
     </group>
   );
 }
 
-// Energy Waves
-function EnergyWaves() {
-  const wavesRef = useRef<THREE.Mesh>(null);
+function CoreShell() {
+  const groupRef = useRef<THREE.Group>(null);
+  const innerRef = useRef<THREE.Mesh>(null);
+  const haloRef = useRef<THREE.Mesh>(null);
   const { mouse } = useThree();
 
   useFrame((state) => {
-    if (!wavesRef.current) return;
+    if (!groupRef.current || !innerRef.current || !haloRef.current) {
+      return;
+    }
 
-    // Expand and contract
-    const time = state.clock.getElapsedTime();
-    const scale = 1 + Math.sin(time * 0.5) * 0.2;
-    wavesRef.current.scale.set(scale, scale, scale);
+    const elapsed = state.clock.getElapsedTime();
+    const targetX = mouse.y * 0.25;
+    const targetY = mouse.x * 0.45 + elapsed * 0.18;
 
-    // Rotate towards mouse
-    const targetRotX = mouse.y * 0.3;
-    const targetRotY = mouse.x * 0.3;
-    wavesRef.current.rotation.x += (targetRotX - wavesRef.current.rotation.x) * 0.05;
-    wavesRef.current.rotation.y += (targetRotY - wavesRef.current.rotation.y) * 0.05;
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetX, 0.06);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY, 0.06);
+
+    const pulse = 1 + Math.sin(elapsed * 1.8) * 0.08;
+    innerRef.current.scale.setScalar(pulse);
+    haloRef.current.scale.setScalar(1.05 + Math.sin(elapsed * 1.4) * 0.14);
   });
 
   return (
-    <mesh ref={wavesRef}>
-      <circleGeometry args={[5, 64]} />
-      <meshBasicMaterial
-        color="#00ffff"
-        transparent
-        opacity={0.1}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <group ref={groupRef}>
+      <mesh ref={haloRef}>
+        <sphereGeometry args={[1.2, 32, 32]} />
+        <meshBasicMaterial color={palette.glowSoft} transparent opacity={0.08} />
+      </mesh>
+
+      <mesh>
+        <icosahedronGeometry args={[1.22, 1]} />
+        <meshStandardMaterial
+          color={palette.silver}
+          emissive={palette.glowSoft}
+          emissiveIntensity={0.18}
+          transparent
+          opacity={0.22}
+          wireframe
+        />
+      </mesh>
+
+      <mesh ref={innerRef}>
+        <sphereGeometry args={[0.48, 32, 32]} />
+        <meshStandardMaterial
+          color={palette.glow}
+          emissive={palette.glow}
+          emissiveIntensity={0.8}
+          metalness={0.45}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {Array.from({ length: 8 }).map((_, index) => {
+        const angle = (index / 8) * Math.PI * 2;
+        return (
+          <mesh
+            key={index}
+            position={[Math.cos(angle) * 1.85, Math.sin(angle) * 1.85, index % 2 === 0 ? 0.35 : -0.35]}
+          >
+            <sphereGeometry args={[0.08, 16, 16]} />
+            <meshBasicMaterial color={index % 2 === 0 ? palette.glow : palette.silver} />
+          </mesh>
+        );
+      })}
+    </group>
   );
 }
 
-// Connection Lines
-function ConnectionLines() {
-  const linesRef = useRef<THREE.LineSegments>(null);
-  const { mouse } = useThree();
+function PulseRings() {
+  const groupRef = useRef<THREE.Group>(null);
 
-  const positions = useMemo(() => {
-    const points = [];
-    const count = 30;
-    
-    for (let i = 0; i < count; i++) {
-      const angle = (i / count) * Math.PI * 2;
-      const radius = 4 + Math.random() * 2;
-      points.push(
-        new THREE.Vector3(Math.cos(angle) * radius, Math.sin(angle) * radius, 0),
-        new THREE.Vector3(0, 0, 0)
-      );
+  useFrame((state) => {
+    if (!groupRef.current) {
+      return;
     }
-    
-    return new Float32Array(points.flatMap(p => [p.x, p.y, p.z]));
-  }, []);
 
-  useFrame(() => {
-    if (!linesRef.current) return;
-    linesRef.current.rotation.z += 0.002;
-    
-    // Subtle mouse influence
-    linesRef.current.rotation.x = mouse.y * 0.2;
-    linesRef.current.rotation.y = mouse.x * 0.2;
+    const elapsed = state.clock.getElapsedTime();
+    groupRef.current.rotation.x = elapsed * 0.16;
+    groupRef.current.rotation.z = elapsed * 0.1;
   });
 
   return (
-    <lineSegments ref={linesRef}>
+    <group ref={groupRef}>
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[2.2, 0.035, 18, 120]} />
+        <meshBasicMaterial color={palette.glow} transparent opacity={0.45} />
+      </mesh>
+      <mesh rotation={[0.8, 0.3, 0.5]}>
+        <torusGeometry args={[2.85, 0.03, 18, 120]} />
+        <meshBasicMaterial color={palette.silver} transparent opacity={0.22} />
+      </mesh>
+      <mesh rotation={[1.1, 0.9, 0.2]}>
+        <torusGeometry args={[3.3, 0.025, 18, 120]} />
+        <meshBasicMaterial color={palette.glowSoft} transparent opacity={0.16} />
+      </mesh>
+    </group>
+  );
+}
+
+function OrbitConnections() {
+  const positions = useMemo(() => {
+    const values = orbitNodes.flatMap((node) => [0, 0, 0, ...node.position]);
+    return new Float32Array(values);
+  }, []);
+
+  return (
+    <lineSegments>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <lineBasicMaterial color="#00ffff" transparent opacity={0.2} />
+      <lineBasicMaterial color={palette.glow} transparent opacity={0.24} />
     </lineSegments>
+  );
+}
+
+function WebsitePanelFace({ accent }: { accent: string }) {
+  return (
+    <>
+      <mesh position={[-0.55, 0.32, 0.06]}>
+        <sphereGeometry args={[0.045, 12, 12]} />
+        <meshBasicMaterial color={accent} />
+      </mesh>
+      <mesh position={[-0.39, 0.32, 0.06]}>
+        <sphereGeometry args={[0.04, 12, 12]} />
+        <meshBasicMaterial color={palette.silver} transparent opacity={0.7} />
+      </mesh>
+      <mesh position={[-0.24, 0.32, 0.06]}>
+        <sphereGeometry args={[0.04, 12, 12]} />
+        <meshBasicMaterial color={palette.glowSoft} transparent opacity={0.65} />
+      </mesh>
+      <mesh position={[0.05, 0.12, 0.06]}>
+        <boxGeometry args={[1.1, 0.16, 0.04]} />
+        <meshBasicMaterial color={accent} transparent opacity={0.42} />
+      </mesh>
+      <mesh position={[-0.34, -0.16, 0.06]}>
+        <boxGeometry args={[0.5, 0.46, 0.04]} />
+        <meshBasicMaterial color={palette.silver} transparent opacity={0.2} />
+      </mesh>
+      <mesh position={[0.34, -0.16, 0.06]}>
+        <boxGeometry args={[0.68, 0.46, 0.04]} />
+        <meshBasicMaterial color={accent} transparent opacity={0.16} />
+      </mesh>
+    </>
+  );
+}
+
+function StrategyPanelFace({ accent }: { accent: string }) {
+  return (
+    <>
+      <mesh position={[-0.18, 0.22, 0.06]}>
+        <boxGeometry args={[1.35, 0.18, 0.04]} />
+        <meshBasicMaterial color={palette.silver} transparent opacity={0.2} />
+      </mesh>
+      <mesh position={[-0.38, -0.08, 0.06]}>
+        <boxGeometry args={[0.5, 0.58, 0.04]} />
+        <meshBasicMaterial color={accent} transparent opacity={0.18} />
+      </mesh>
+      {[
+        { x: 0.16, height: 0.22 },
+        { x: 0.42, height: 0.38 },
+        { x: 0.68, height: 0.56 },
+      ].map((bar) => (
+        <mesh key={bar.x} position={[bar.x, -0.24 + bar.height / 2, 0.06]}>
+          <boxGeometry args={[0.14, bar.height, 0.04]} />
+          <meshBasicMaterial color={accent} transparent opacity={0.5} />
+        </mesh>
+      ))}
+    </>
+  );
+}
+
+function AutomationPanelFace({ accent }: { accent: string }) {
+  return (
+    <>
+      <mesh position={[0, 0.24, 0.06]}>
+        <boxGeometry args={[1.1, 0.14, 0.04]} />
+        <meshBasicMaterial color={palette.silver} transparent opacity={0.18} />
+      </mesh>
+      {[-0.5, 0, 0.5].map((x) => (
+        <mesh key={x} position={[x, -0.02, 0.06]}>
+          <sphereGeometry args={[0.08, 14, 14]} />
+          <meshBasicMaterial color={accent} />
+        </mesh>
+      ))}
+      {[-0.25, 0.25].map((x) => (
+        <mesh key={x} position={[x, -0.02, 0.06]}>
+          <boxGeometry args={[0.34, 0.04, 0.03]} />
+          <meshBasicMaterial color={accent} transparent opacity={0.45} />
+        </mesh>
+      ))}
+      <mesh position={[0, -0.32, 0.06]}>
+        <boxGeometry args={[0.84, 0.12, 0.04]} />
+        <meshBasicMaterial color={palette.glowSoft} transparent opacity={0.24} />
+      </mesh>
+    </>
+  );
+}
+
+function OrbitPanel({
+  accent,
+  index,
+  position,
+  scale,
+  variant,
+}: {
+  accent: string;
+  index: number;
+  position: [number, number, number];
+  scale: number;
+  variant: NodeVariant;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame((state) => {
+    if (!groupRef.current) {
+      return;
+    }
+
+    const elapsed = state.clock.getElapsedTime() + index;
+    groupRef.current.position.set(
+      position[0],
+      position[1] + Math.sin(elapsed * 0.9) * 0.14,
+      position[2]
+    );
+    groupRef.current.rotation.x = Math.sin(elapsed * 0.35) * 0.08;
+    groupRef.current.rotation.y = Math.cos(elapsed * 0.45) * 0.18;
+  });
+
+  return (
+    <group ref={groupRef} scale={scale}>
+      <mesh>
+        <boxGeometry args={[1.8, 1.15, 0.09]} />
+        <meshStandardMaterial
+          color={palette.panel}
+          emissive={accent}
+          emissiveIntensity={0.12}
+          transparent
+          opacity={0.72}
+          metalness={0.24}
+          roughness={0.42}
+        />
+      </mesh>
+
+      <mesh scale={[1.03, 1.03, 1.03]}>
+        <boxGeometry args={[1.8, 1.15, 0.09]} />
+        <meshBasicMaterial color={accent} wireframe transparent opacity={0.18} />
+      </mesh>
+
+      {variant === 'website' && <WebsitePanelFace accent={accent} />}
+      {variant === 'strategy' && <StrategyPanelFace accent={accent} />}
+      {variant === 'automation' && <AutomationPanelFace accent={accent} />}
+    </group>
+  );
+}
+
+function ConsultingCluster({ isMobile }: { isMobile: boolean }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const { mouse } = useThree();
+
+  useFrame((state) => {
+    if (!groupRef.current) {
+      return;
+    }
+
+    const elapsed = state.clock.getElapsedTime();
+    const baseX = isMobile ? 0 : 3.2;
+
+    groupRef.current.position.x = THREE.MathUtils.lerp(
+      groupRef.current.position.x,
+      baseX + mouse.x * 0.45,
+      0.04
+    );
+    groupRef.current.position.y = THREE.MathUtils.lerp(
+      groupRef.current.position.y,
+      mouse.y * 0.35,
+      0.04
+    );
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(
+      groupRef.current.rotation.y,
+      -0.35 + mouse.x * 0.24 + elapsed * 0.04,
+      0.04
+    );
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      mouse.y * 0.12,
+      0.04
+    );
+  });
+
+  return (
+    <group ref={groupRef} position={isMobile ? [0, 0, 0] : [3.2, 0, 0]}>
+      <PulseRings />
+      <OrbitConnections />
+      <CoreShell />
+      {orbitNodes.map((node, index) => (
+        <OrbitPanel key={node.variant} index={index} {...node} />
+      ))}
+    </group>
   );
 }
 
@@ -293,47 +439,44 @@ interface HeroSceneProps {
 }
 
 export default function HeroScene({ onSceneReady }: HeroSceneProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
+    const updateViewport = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+
+    return () => window.removeEventListener('resize', updateViewport);
+  }, []);
+
+  useEffect(() => {
     onSceneReady?.();
   }, [onSceneReady]);
 
   return (
     <div className="absolute inset-0 z-0 bg-gradient-to-b from-black via-zinc-950 to-black">
       <Canvas
-        camera={{ position: [0, 0, 12], fov: 60 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 0, 12], fov: 52 }}
+        dpr={isMobile ? [1, 1.3] : [1, 1.8]}
+        gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance' }}
       >
-        {/* Lighting */}
-        <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} color="#00ffff" />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#ff006e" />
-        <pointLight position={[0, 0, 5]} intensity={0.8} color="#ffffff" />
-        <spotLight
-          position={[0, 15, 0]}
-          angle={0.6}
-          penumbra={1}
-          intensity={1}
-          castShadow
-        />
+        <ambientLight intensity={0.35} />
+        <directionalLight position={[6, 8, 6]} intensity={1.1} color={palette.silver} />
+        <pointLight position={[5, 3, 5]} intensity={1.8} color={palette.glow} />
+        <pointLight position={[-5, -2, 3]} intensity={0.8} color={palette.glowSoft} />
 
-        {/* Scene Elements */}
-        <FloatingShapes />
-        <MorphingCore />
-        <RingSystem />
-        <EnergyWaves />
-        <ConnectionLines />
-        <ParticleTrail />
+        <AmbientParticles count={isMobile ? 220 : 520} />
+        <SignalGrid isMobile={isMobile} />
+        <ConsultingCluster isMobile={isMobile} />
 
-        {/* Fog for depth */}
-        <fog attach="fog" args={['#000000', 8, 20]} />
+        <fog attach="fog" args={[palette.void, 9, 22]} />
       </Canvas>
 
-      {/* Overlay gradient for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(103,232,249,0.16),transparent_34%),radial-gradient(circle_at_62%_58%,rgba(56,189,248,0.12),transparent_28%)]" />
     </div>
   );
 }

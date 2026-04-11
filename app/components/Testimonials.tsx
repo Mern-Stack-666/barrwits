@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 const testimonials = [
     {
@@ -24,26 +24,7 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
-    const [isVisible, setIsVisible] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
 
     // Auto-rotate testimonials
     useEffect(() => {
@@ -55,14 +36,14 @@ export default function Testimonials() {
 
     return (
         <section
-            ref={sectionRef}
+            data-gsap="section"
             id="testimonials"
             className="relative w-full bg-black px-4 sm:px-6 py-8 md:py-12"
         >
             <div className="mx-auto max-w-7xl">
 
                 {/* Section Header */}
-                <div className={`mb-10 md:mb-20 text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+                <div data-gsap="heading" className="mb-10 md:mb-20 text-center">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
                         <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
                         <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">CLIENT SUCCESS</span>
@@ -73,7 +54,7 @@ export default function Testimonials() {
                 </div>
 
                 {/* Testimonial Carousel */}
-                <div className={`relative ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+                <div data-gsap="copy" className="relative">
                     <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-5 sm:p-8 md:p-10 lg:p-10 backdrop-blur-sm">
 
                         {/* Quote Icon */}

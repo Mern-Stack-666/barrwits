@@ -1,39 +1,18 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
 import { HiMail, HiPhone } from 'react-icons/hi';
 
 export default function Contact() {
-    const [isVisible, setIsVisible] = useState(false);
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
     return (
         <section
-            ref={sectionRef}
+            data-gsap="section"
             id="contact"
             className="relative w-full bg-black px-6 pb-8 md:pb-12"
         >
             <div className="mx-auto max-w-5xl">
 
                 {/* Header */}
-                <div className={`mb-16 text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+                <div data-gsap="heading" className="mb-16 text-center">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 backdrop-blur-sm">
                         <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></div>
                         <span className="text-xs font-medium tracking-widest text-cyan-400">GET IN TOUCH</span>
@@ -50,10 +29,11 @@ export default function Contact() {
                 </div>
 
                 {/* Contact Cards */}
-                <div className={`mb-16 grid gap-6 md:grid-cols-2 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+                <div data-gsap="grid" className="mb-16 grid gap-6 md:grid-cols-2">
 
                     {/* Email Card */}
                     <a
+                        data-gsap-item
                         href="mailto:hello@barrwit.com"
                         className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 backdrop-blur-sm transition-all duration-500 hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)]"
                     >
@@ -70,6 +50,7 @@ export default function Contact() {
 
                     {/* Phone Card */}
                     <a
+                        data-gsap-item
                         href="tel:+1234567890"
                         className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 backdrop-blur-sm transition-all duration-500 hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)]"
                     >
@@ -87,7 +68,7 @@ export default function Contact() {
                 </div>
 
                 {/* Form */}
-                <div className={`${isVisible ? 'animate-scale-in' : 'opacity-0'}`} style={{ animationDelay: '0.4s' }}>
+                <div data-gsap="cta">
                     <form className="space-y-6 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 backdrop-blur-sm lg:p-12">
 
                         <div className="grid gap-6 md:grid-cols-2">

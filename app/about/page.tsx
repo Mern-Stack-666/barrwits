@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from '../components/Header';
@@ -104,48 +103,27 @@ const milestones = [
 ];
 
 export default function AboutPage() {
-  const [isVisible, setIsVisible] = useState(false);
-  const heroRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
       <Header />
       <main className="bg-black">
       {/* Hero Section */}
       <section
-        ref={heroRef}
         className="relative w-full px-4 sm:px-6 pt-32 pb-16 md:pt-40 md:pb-24"
       >
         <div className="mx-auto max-w-7xl">
-          <div className={`text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-5 py-2 backdrop-blur-sm">
+          <div data-gsap="hero" className="text-center">
+            <div data-gsap-item className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-5 py-2 backdrop-blur-sm">
               <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
               <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">ABOUT BARRWIT INTERNATIONAL</span>
             </div>
-            <h1 className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
+            <h1 data-gsap-item className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
               Transforming Visions Into{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
                 Global Success
               </span>
             </h1>
-            <p className="mx-auto max-w-3xl text-lg sm:text-xl text-gray-400 leading-relaxed">
+            <p data-gsap-item className="mx-auto max-w-3xl text-lg sm:text-xl text-gray-400 leading-relaxed">
               For over 15 years, we've been at the forefront of innovation, delivering exceptional solutions in software development, investment management, and business development.
             </p>
           </div>
@@ -155,7 +133,7 @@ export default function AboutPage() {
       {/* Story Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 sm:p-10 md:p-16 backdrop-blur-sm">
+          <div data-gsap="copy" className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 sm:p-10 md:p-16 backdrop-blur-sm">
             <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
               {/* Image */}
               <div className="w-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent">
@@ -201,9 +179,9 @@ export default function AboutPage() {
       {/* Mission & Vision */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 md:grid-cols-2">
+          <div data-gsap="grid" className="grid gap-8 md:grid-cols-2">
             {/* Mission */}
-            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-12 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30">
+            <div data-gsap-item className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-12 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30">
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#C0C0C0]/5 to-transparent rounded-full blur-3xl"></div>
               <div className="relative">
                 <div className="mb-4 inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#C0C0C0]/10 to-transparent border border-[#C0C0C0]/20">
@@ -217,7 +195,7 @@ export default function AboutPage() {
             </div>
 
             {/* Vision */}
-            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-12 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30">
+            <div data-gsap-item className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-12 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30">
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#C0C0C0]/5 to-transparent rounded-full blur-3xl"></div>
               <div className="relative">
                 <div className="mb-4 inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#C0C0C0]/10 to-transparent border border-[#C0C0C0]/20">
@@ -236,7 +214,7 @@ export default function AboutPage() {
       {/* Values Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 md:mb-16 text-center">
+          <div data-gsap="heading" className="mb-12 md:mb-16 text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
               <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
               <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">OUR VALUES</span>
@@ -249,12 +227,13 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div data-gsap="grid" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value, index) => {
               const IconComponent = value.icon;
               return (
                 <div
                   key={index}
+                  data-gsap-item
                   className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 md:p-8 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30 hover:bg-[#C0C0C0]/5 md:hover:scale-105"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-[#C0C0C0]/0 to-[#C0C0C0]/0 opacity-0 transition-opacity duration-500 group-hover:from-[#C0C0C0]/10 group-hover:to-transparent group-hover:opacity-100"></div>
@@ -273,7 +252,7 @@ export default function AboutPage() {
       {/* Stats Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 md:mb-16 text-center">
+          <div data-gsap="heading" className="mb-12 md:mb-16 text-center">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
               Our Impact in{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
@@ -282,12 +261,13 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div data-gsap="grid" className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat, index) => {
               const IconComponent = stat.icon;
               return (
                 <div
                   key={index}
+                  data-gsap-item
                   className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 md:p-8 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30 hover:bg-[#C0C0C0]/5 md:hover:scale-105 hover:shadow-[0_0_40px_rgba(192,192,192,0.15)]"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-[#C0C0C0]/0 to-[#C0C0C0]/0 opacity-0 transition-opacity duration-500 group-hover:from-[#C0C0C0]/10 group-hover:to-transparent group-hover:opacity-100"></div>
@@ -313,7 +293,7 @@ export default function AboutPage() {
       {/* Timeline Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-5xl">
-          <div className="mb-12 md:mb-16 text-center">
+          <div data-gsap="heading" className="mb-12 md:mb-16 text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
               <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
               <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">OUR JOURNEY</span>
@@ -331,10 +311,11 @@ export default function AboutPage() {
             <div className="absolute left-1/2 transform -translate-x-px h-full w-px bg-gradient-to-b from-[#C0C0C0]/20 via-[#C0C0C0]/40 to-[#C0C0C0]/20"></div>
 
             {/* Timeline Items */}
-            <div className="space-y-12">
+            <div data-gsap="grid" className="space-y-12">
               {milestones.map((milestone, index) => (
                 <div
                   key={index}
+                  data-gsap-item
                   className={`relative flex items-center ${
                     index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}
@@ -363,7 +344,7 @@ export default function AboutPage() {
       {/* Team Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 md:mb-16 text-center">
+          <div data-gsap="heading" className="mb-12 md:mb-16 text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
               <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
               <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">OUR PEOPLE</span>
@@ -379,10 +360,11 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div data-gsap="grid" className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((_, index) => (
               <div
                 key={index}
+                data-gsap-item
                 className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30"
               >
                 <div className="relative aspect-[3/4] w-full overflow-hidden">
@@ -416,8 +398,8 @@ export default function AboutPage() {
       {/* What Sets Us Apart */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 sm:p-12 md:p-16 backdrop-blur-sm">
-            <div className="text-center mb-12">
+          <div data-gsap="copy" className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 sm:p-12 md:p-16 backdrop-blur-sm">
+            <div data-gsap="heading" className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
                 What Sets Us{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
@@ -469,7 +451,7 @@ export default function AboutPage() {
 
       {/* CTA Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
-        <div className="mx-auto max-w-4xl text-center">
+        <div data-gsap="cta" className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Transform Your{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">

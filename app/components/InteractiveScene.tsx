@@ -5,13 +5,18 @@ import { useRef, useMemo, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 
+function seededUnit(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+}
+
 // Interactive Floating Sphere
 function InteractiveSphere() {
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!meshRef.current) return;
     
     // Gentle rotation
@@ -75,9 +80,9 @@ function ParticleField() {
   const positions = useMemo(() => {
     const pos = new Float32Array(particlesCount * 3);
     for (let i = 0; i < particlesCount; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 30;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 30;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 30;
+      pos[i * 3] = (seededUnit(i + 1) - 0.5) * 30;
+      pos[i * 3 + 1] = (seededUnit(i + particlesCount + 7) - 0.5) * 30;
+      pos[i * 3 + 2] = (seededUnit(i + particlesCount * 2 + 13) - 0.5) * 30;
     }
     return pos;
   }, []);
@@ -94,12 +99,7 @@ function ParticleField() {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particlesCount}
-          array={positions}
-          itemSize={3}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
         size={0.05}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { 
@@ -55,7 +55,6 @@ const services = [
 ];
 
 export default function ContactPage() {
-  const [isVisible, setIsVisible] = useState(false);
   const [formState, setFormState] = useState({
     firstName: '',
     lastName: '',
@@ -68,24 +67,6 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const heroRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormState({
@@ -135,7 +116,7 @@ export default function ContactPage() {
   if (isSubmitted) {
     return (
       <main className="bg-black min-h-screen flex items-center justify-center px-4">
-        <div className="text-center animate-fade-in-up">
+        <div data-gsap="hero" className="text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-[#C0C0C0]/20 to-transparent border border-[#C0C0C0]/30 mb-6">
             <HiCheckCircle className="text-5xl text-[#C0C0C0]" />
           </div>
@@ -159,22 +140,21 @@ export default function ContactPage() {
       <main className="bg-black">
       {/* Hero Section */}
       <section
-        ref={heroRef}
         className="relative w-full px-4 sm:px-6 pt-32 pb-16 md:pt-40 md:pb-24"
       >
         <div className="mx-auto max-w-7xl">
-          <div className={`text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-5 py-2 backdrop-blur-sm">
+          <div data-gsap="hero" className="text-center">
+            <div data-gsap-item className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-5 py-2 backdrop-blur-sm">
               <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
               <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">CONTACT US</span>
             </div>
-            <h1 className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
+            <h1 data-gsap-item className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
               Let's Start a{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">
                 Conversation
               </span>
             </h1>
-            <p className="mx-auto max-w-3xl text-lg sm:text-xl text-gray-400 leading-relaxed">
+            <p data-gsap-item className="mx-auto max-w-3xl text-lg sm:text-xl text-gray-400 leading-relaxed">
               Ready to transform your business? Get in touch with our team and discover how we can help you achieve your goals.
             </p>
           </div>
@@ -184,12 +164,13 @@ export default function ContactPage() {
       {/* Contact Info Cards */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div data-gsap="grid" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {contactInfo.map((info, index) => {
               const IconComponent = info.icon;
               return (
                 <a
                   key={index}
+                  data-gsap-item
                   href={info.link}
                   className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30 hover:bg-[#C0C0C0]/5 md:hover:scale-105"
                 >
@@ -214,9 +195,9 @@ export default function ContactPage() {
       {/* Contact Form Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-5">
+          <div data-gsap="grid" className="grid gap-12 lg:grid-cols-5">
             {/* Form */}
-            <div className="lg:col-span-3">
+            <div data-gsap-item className="lg:col-span-3">
               <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-12 backdrop-blur-sm">
                 <div className="mb-8">
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Send Us a Message</h2>
@@ -409,7 +390,7 @@ export default function ContactPage() {
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-2 space-y-6">
+            <div data-gsap-item className="lg:col-span-2 space-y-6">
               {/* Quick Contact */}
               <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 backdrop-blur-sm">
                 <h3 className="text-xl font-bold text-white mb-4">Why Choose Barrwit?</h3>
@@ -470,8 +451,8 @@ export default function ContactPage() {
       {/* Map Section (Optional - placeholder) */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-12 backdrop-blur-sm">
-            <div className="text-center mb-8">
+          <div data-gsap="copy" className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 md:p-12 backdrop-blur-sm">
+            <div data-gsap="heading" className="text-center mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Our Global Presence</h2>
               <p className="text-gray-400">Serving clients across 30+ countries worldwide</p>
             </div>
@@ -490,7 +471,7 @@ export default function ContactPage() {
 
       {/* CTA Section */}
       <section className="relative w-full px-4 sm:px-6 py-12 md:pb-20">
-        <div className="mx-auto max-w-4xl text-center">
+        <div data-gsap="cta" className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
             Still Have{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C0C0C0] to-white">

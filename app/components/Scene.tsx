@@ -4,6 +4,11 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 
+function seededUnit(seed: number) {
+    const value = Math.sin(seed * 12.9898) * 43758.5453;
+    return value - Math.floor(value);
+}
+
 // Futuristic Grid Plane
 function GridPlane() {
     const meshRef = useRef<THREE.Mesh>(null);
@@ -60,9 +65,9 @@ function FloatingParticles() {
     const positions = useMemo(() => {
         const pos = new Float32Array(particleCount * 3);
         for (let i = 0; i < particleCount; i++) {
-            pos[i * 3] = (Math.random() - 0.5) * 25;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * 25;
-            pos[i * 3 + 2] = (Math.random() - 0.5) * 15;
+            pos[i * 3] = (seededUnit(i + 1) - 0.5) * 25;
+            pos[i * 3 + 1] = (seededUnit(i + particleCount + 7) - 0.5) * 25;
+            pos[i * 3 + 2] = (seededUnit(i + particleCount * 2 + 13) - 0.5) * 15;
         }
         return pos;
     }, []);
@@ -88,9 +93,6 @@ function FloatingParticles() {
                 <bufferAttribute
                     attach="attributes-position"
                     args={[positions, 3]}
-                    count={particleCount}
-                    array={positions}
-                    itemSize={3}
                 />
             </bufferGeometry>
             <pointsMaterial
@@ -129,8 +131,8 @@ function DataStreams() {
         const lineGeometries = [];
         for (let i = 0; i < 20; i++) {
             const points = [];
-            const x = (Math.random() - 0.5) * 20;
-            const z = (Math.random() - 0.5) * 20;
+            const x = (seededUnit(i + 31) - 0.5) * 20;
+            const z = (seededUnit(i + 61) - 0.5) * 20;
             points.push(new THREE.Vector3(x, -10, z));
             points.push(new THREE.Vector3(x, 10, z));
             lineGeometries.push(points);
@@ -146,8 +148,6 @@ function DataStreams() {
                         <bufferAttribute
                             attach="attributes-position"
                             args={[new Float32Array(points.flatMap(p => [p.x, p.y, p.z])), 3]}
-                            count={points.length}
-                            itemSize={3}
                         />
                     </bufferGeometry>
                     <lineBasicMaterial color="#00ffff" transparent opacity={0.1} />

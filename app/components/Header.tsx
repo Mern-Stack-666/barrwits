@@ -62,7 +62,7 @@ export default function Header() {
 
     return (
         <>
-            <header className="fixed top-6 left-0 right-0 z-[100] px-6 transition-all duration-500 md:px-12 py-3 lg:px-24 pointer-events-none">
+            <header data-gsap="nav" className="fixed top-6 left-0 right-0 z-[100] px-6 transition-all duration-500 md:px-12 py-3 lg:px-24 pointer-events-none">
                 <div className="relative mx-auto max-w-7xl">
                     <div className={`pointer-events-none absolute -inset-x-4 -inset-y-3 rounded-[2.25rem] border transition-all duration-500 md:-inset-x-6 lg:-inset-x-10 ${isScrolled || isMenuOpen
                         ? 'border-white/10 bg-black/40 backdrop-blur-xl'

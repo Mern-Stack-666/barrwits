@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 
 const offerings = [
     {
@@ -30,37 +30,18 @@ const offerings = [
 ];
 
 export default function WhatWeDo() {
-    const [isVisible, setIsVisible] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
 
     return (
         <section
-            ref={sectionRef}
+            data-gsap="section"
             id="what-we-do"
             className="relative min-h-screen w-full bg-black px-6 pb-8 md:pb-12  "
         >
             <div className="mx-auto max-w-7xl">
 
                 {/* Section Header */}
-                <div className={`mb-8 md:mb-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+                <div data-gsap="heading" className="mb-8 md:mb-20">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
                         <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
                         <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">WHAT WE DO</span>
@@ -75,16 +56,16 @@ export default function WhatWeDo() {
                 </div>
 
                 {/* Offerings Grid */}
-                <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-2 lg:gap-12">
+                <div data-gsap="grid" className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-2 lg:gap-12">
                     {offerings.map((offering, index) => (
                         <div
                             key={index}
+                            data-gsap-item
                             onMouseEnter={() => setActiveIndex(index)}
                             className={`group relative overflow-hidden rounded-2xl border transition-all duration-700 ${activeIndex === index
                                 ? 'border-[#C0C0C0]/50 bg-gradient-to-br from-[#C0C0C0]/10 via-transparent to-transparent shadow-[0_0_50px_rgba(192,192,192,0.2)]'
                                 : 'border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#C0C0C0]/30'
-                                } ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}
-                            style={{ animationDelay: `${index * 0.15}s` }}
+                                }`}
                         >
                             <div className="p-5 sm:p-6 md:p-8 lg:p-10">
                                 <div className="flex flex-col gap-6">

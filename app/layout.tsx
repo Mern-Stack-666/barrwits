@@ -4,6 +4,7 @@ import "./globals.css";
 
 import AuthProvider from "@/components/AuthProvider";
 import CustomCursor from "./components/CustomCursor";
+import SiteMotion from "./components/SiteMotion";
 
 const redHatDisplay = localFont({
   src: [
@@ -38,6 +39,7 @@ export default async function RootLayout({
       <body className={`${redHatDisplay.variable} font-sans antialiased`}>
         <AuthProvider>
           <CustomCursor />
+          <SiteMotion />
           {children}
         </AuthProvider>
       </body>

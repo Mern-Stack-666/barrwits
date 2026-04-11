@@ -1,35 +1,13 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-
 export default function CTA() {
-    const [isVisible, setIsVisible] = useState(false);
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
     return (
         <section
-            ref={sectionRef}
+            data-gsap="section"
             className="relative w-full bg-black px-4 sm:px-6 py-8 md:py-12"
         >
             <div className="mx-auto max-w-7xl">
-                <div className={`relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent px-5 sm:px-8 py-10 sm:py-14 md:py-16 lg:px-16 lg:py-20 backdrop-blur-sm ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}>
+                <div data-gsap="cta" className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent px-5 sm:px-8 py-10 sm:py-14 md:py-16 lg:px-16 lg:py-20 backdrop-blur-sm">
 
                     {/* Background Glow */}
                     <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-72 bg-[#C0C0C0]/20 blur-[120px]"></div>

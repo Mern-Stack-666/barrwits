@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import { HiTrendingUp, HiUserGroup, HiCurrencyDollar, HiStar } from 'react-icons/hi';
 
@@ -32,36 +31,16 @@ const stats = [
 ];
 
 export default function About() {
-    const [isVisible, setIsVisible] = useState(false);
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
     return (
         <section
-            ref={sectionRef}
+            data-gsap="section"
             id="about"
             className="relative w-full bg-black px-4 sm:px-6 py-8 md:py-12"
         >
             <div className="mx-auto max-w-7xl">
 
                 {/* Header */}
-                <div className={`mb-10 md:mb-20 text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+                <div data-gsap="heading" className="mb-10 md:mb-20 text-center">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm">
                         <div className="h-2 w-2 rounded-full bg-[#C0C0C0] animate-pulse"></div>
                         <span className="text-xs font-medium tracking-widest text-[#C0C0C0]">ABOUT BARRWIT</span>
@@ -76,7 +55,7 @@ export default function About() {
                 </div>
 
                 {/* Content Grid */}
-                <div className={`mb-10 md:mb-20 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+                <div data-gsap="copy" className="mb-10 md:mb-20">
                     <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-5 sm:p-8 md:p-10 backdrop-blur-sm lg:p-16">
                         <div className="grid gap-8 sm:gap-10">
 
@@ -125,12 +104,13 @@ export default function About() {
                 </div>
 
                 {/* Stats Grid */}
-                <div className={`grid gap-6 md:grid-cols-2 lg:grid-cols-4 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '0.4s' }}>
+                <div data-gsap="grid" className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {stats.map((stat, index) => {
                         const IconComponent = stat.icon;
                         return (
                             <div
                                 key={index}
+                                data-gsap-item
                                 className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-5 sm:p-6 md:p-8 backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/30 hover:bg-[#C0C0C0]/5 md:hover:scale-105 hover:shadow-[0_0_40px_rgba(192,192,192,0.15)]"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-br from-[#C0C0C0]/0 to-[#C0C0C0]/0 opacity-0 transition-opacity duration-500 group-hover:from-[#C0C0C0]/10 group-hover:to-transparent group-hover:opacity-100"></div>
