@@ -1,9 +1,10 @@
 'use client';
 
-import Scene from "./Scene";
+import HeroScene from "./HeroScene";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { HiChartBar, HiShieldCheck, HiGlobeAlt } from "react-icons/hi2";
+import gsap from 'gsap';
 
 export default function Hero() {
     const [isVisible, setIsVisible] = useState(false);
@@ -13,9 +14,103 @@ export default function Hero() {
     // 3D Tilt State
     const [tilt, setTilt] = useState({ x: 0, y: 0 });
     const imageRef = useRef<HTMLDivElement>(null);
+    const heroRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const headingRef = useRef<HTMLHeadingElement>(null);
+    const descriptionRef = useRef<HTMLParagraphElement>(null);
+    const buttonsRef = useRef<HTMLDivElement>(null);
+    const statsRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsVisible(true);
+
+        // GSAP Animations
+        const ctx = gsap.context(() => {
+            // Animate content container
+            gsap.from(contentRef.current, {
+                opacity: 0,
+                x: -50,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 0.2,
+            });
+
+            // Animate heading
+            gsap.from(headingRef.current, {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                ease: 'power2.out',
+                delay: 0.4,
+            });
+
+            // Animate description
+            gsap.from(descriptionRef.current, {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                ease: 'power2.out',
+                delay: 0.6,
+            });
+
+            // Animate buttons
+            gsap.from(buttonsRef.current?.children || [], {
+                opacity: 0,
+                y: 20,
+                stagger: 0.1,
+                duration: 0.6,
+                ease: 'back.out(1.7)',
+                delay: 0.8,
+            });
+
+            // Animate stats
+            gsap.from(statsRef.current?.children || [], {
+                opacity: 0,
+                scale: 0.8,
+                stagger: 0.15,
+                duration: 0.6,
+                ease: 'power2.out',
+                delay: 1,
+            });
+
+            // Animate image container
+            gsap.from(imageRef.current, {
+                opacity: 0,
+                x: 50,
+                rotationY: 15,
+                duration: 1.2,
+                ease: 'power3.out',
+                delay: 0.3,
+            });
+
+            // Mouse parallax effect on content
+            if (heroRef.current) {
+                heroRef.current.addEventListener('mousemove', (e: MouseEvent) => {
+                    const { clientX, clientY } = e;
+                    const { innerWidth, innerHeight } = window;
+                    
+                    const xPos = (clientX / innerWidth - 0.5) * 20;
+                    const yPos = (clientY / innerHeight - 0.5) * 20;
+
+                    // Subtle parallax on different elements
+                    gsap.to(contentRef.current, {
+                        x: xPos * 0.5,
+                        y: yPos * 0.5,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+
+                    gsap.to(imageRef.current, {
+                        x: -xPos * 0.8,
+                        y: -yPos * 0.8,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                });
+            }
+        }, heroRef);
+
+        return () => ctx.revert();
     }, []);
 
     // Typewriter effect
@@ -48,9 +143,12 @@ export default function Hero() {
 
     return (
 
-        <section className="relative flex min-h-screen w-full flex-col items-center justify-center md:mt-28 mb-10 overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black px-2 md:px-6 pb-10 pt-24 md:pt-0 text-white perspective-[1000px] lg:pb-5 lg:pt-0">
-            {/* 3D Background */}
-            <Scene />
+        <section 
+            ref={heroRef}
+            className="relative flex min-h-screen w-full flex-col items-center justify-center md:mt-28 mb-10 overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black px-2 md:px-6 pb-10 pt-24 md:pt-0 text-white perspective-[1000px] lg:pb-5 lg:pt-0"
+        >
+            {/* 3D Interactive Background */}
+            <HeroScene onSceneReady={() => setIsVisible(true)} />
 
             {/* Ambient Background Glow Orb */}
             <div className={`absolute left-10 top-20 h-96 w-96 rounded-full bg-[#C0C0C0]/10 blur-[120px] transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
@@ -59,7 +157,10 @@ export default function Hero() {
             <div className="relative z-50 flex w-full max-w-7xl flex-col items-center justify-between gap-12 px-4 md:flex-row lg:gap-16 lg:px-6">
 
                 {/* Left Column - Text Content */}
-                <div className={`flex flex-col items-start justify-center pt-5 xl:pt-10 lg:w-1/2 lg:pt-0 ${isVisible ? 'div-animate-slide-in-left' : 'opacity-0'}`}>
+                <div 
+                    ref={contentRef}
+                    className="flex flex-col items-start justify-center pt-5 xl:pt-10 lg:w-1/2 lg:pt-0"
+                >
 
                     {/* Eyebrow */}
                     <div className="mb-4 md:mb-6 inline-flex items-center gap-2 rounded-full border border-[#C0C0C0]/20 bg-[#C0C0C0]/5 px-4 py-2 backdrop-blur-sm shadow-[0_0_15px_rgba(192,192,192,0.1)] transition-transform hover:scale-105">
@@ -71,7 +172,10 @@ export default function Hero() {
                     </div>
 
                     {/* Main Headline */}
-                    <h1 className="mb-2 md:mb-6 text-[34px] font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-4xl xl:text-7xl">
+                    <h1 
+                        ref={headingRef}
+                        className="mb-2 md:mb-6 text-[34px] font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-4xl xl:text-7xl"
+                    >
                         An organization where you find{" "}
                         <span className="relative inline-block">
                             <span className="relative z-10 text-transparent bg-clip-text bg-linear-to-r from-[#C0C0C0] via-white to-[#C0C0C0] animate-gradient-x bg-size-[200%_auto]">growth</span>
@@ -80,13 +184,27 @@ export default function Hero() {
                     </h1>
 
                     {/* Description */}
-                    <p className="mb-4 max-w-xl text-base xl:text-lg font-light leading-relaxed text-gray-300 lg:mb-6 xl:mb-10 lg:text-2xl">
+                    <p 
+                        ref={descriptionRef}
+                        className="mb-4 max-w-xl text-base xl:text-lg font-light leading-relaxed text-gray-300 lg:mb-6 xl:mb-10 lg:text-2xl"
+                    >
                         Not just for businesses but for people who live in something big. Barrwit International is the game changer when it comes to software, investment management and BD.
                     </p>
 
                     {/* Buttons */}
-                    <div className="flex w-full flex-col gap-2 md:flex-row justify-center lg:gap-6 lg:w-auto">
-                        <button className="btn-premium group relative overflow-hidden bg-gradient-to-r from-white to-[#E8E8E8] px-4 py-3 xl:px-8 xl:py-4 text-xs font-bold tracking-widest text-black shadow-2xl transition-all duration-500 hover:shadow-[0_0_30px_rgba(192,192,192,0.4)] hover:-translate-y-1">
+                    <div 
+                        ref={buttonsRef}
+                        className="flex w-full flex-col gap-2 md:flex-row justify-center lg:gap-6 lg:w-auto"
+                    >
+                        <button 
+                            className="btn-premium group relative overflow-hidden bg-gradient-to-r from-white to-[#E8E8E8] px-4 py-3 xl:px-8 xl:py-4 text-xs font-bold tracking-widest text-black shadow-2xl transition-all duration-500 hover:shadow-[0_0_30px_rgba(192,192,192,0.4)] hover:-translate-y-1"
+                            onMouseEnter={(e) => {
+                                gsap.to(e.currentTarget, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+                            }}
+                            onMouseLeave={(e) => {
+                                gsap.to(e.currentTarget, { scale: 1, duration: 0.3, ease: 'power2.out' });
+                            }}
+                        >
                             <span className="relative z-10 flex items-center justify-center gap-2">
                                 <span className="text-sm lg:text-base">
                                 DISCOVER MORE
@@ -96,7 +214,15 @@ export default function Hero() {
                                 </svg>
                             </span>
                         </button>
-                        <button className="btn-premium group relative overflow-hidden border-2 border-white/30 bg-transparent px-4 py-3 xl:px-8 xl:py-4 text-xs font-bold tracking-widest text-white backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/60 hover:text-[#C0C0C0] hover:bg-[#C0C0C0]/10 hover:-translate-y-1">
+                        <button 
+                            className="btn-premium group relative overflow-hidden border-2 border-white/30 bg-transparent px-4 py-3 xl:px-8 xl:py-4 text-xs font-bold tracking-widest text-white backdrop-blur-sm transition-all duration-500 hover:border-[#C0C0C0]/60 hover:text-[#C0C0C0] hover:bg-[#C0C0C0]/10 hover:-translate-y-1"
+                            onMouseEnter={(e) => {
+                                gsap.to(e.currentTarget, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+                            }}
+                            onMouseLeave={(e) => {
+                                gsap.to(e.currentTarget, { scale: 1, duration: 0.3, ease: 'power2.out' });
+                            }}
+                        >
                             <span className="relative z-10 flex items-center justify-center gap-2">
                                 <span className="text-xs lg:text-base">
                                 CONTACT US
@@ -109,13 +235,33 @@ export default function Hero() {
                     </div>
 
                     {/* Detailed Stats */}
-                    <div className="xl:mt-10 mt-6 grid w-full grid-cols-3 gap-4 border-t border-white/10 md:pt-8  lg:flex lg:w-auto lg:gap-12">
+                    <div 
+                        ref={statsRef}
+                        className="xl:mt-10 mt-6 grid w-full grid-cols-3 gap-4 border-t border-white/10 md:pt-8  lg:flex lg:w-auto lg:gap-12"
+                    >
                         {[
                             { val: '15+', label: 'Years Experience' },
                             { val: '200+', label: 'Global Clients' },
                             { val: '98%', label: 'Success Rate' }
                         ].map((stat, i) => (
-                            <div key={i} className="group cursor-default text-center lg:text-left">
+                            <div 
+                                key={i} 
+                                className="group cursor-default text-center lg:text-left"
+                                onMouseEnter={(e) => {
+                                    gsap.to(e.currentTarget, { 
+                                        scale: 1.1,
+                                        duration: 0.3,
+                                        ease: 'back.out(1.7)'
+                                    });
+                                }}
+                                onMouseLeave={(e) => {
+                                    gsap.to(e.currentTarget, { 
+                                        scale: 1,
+                                        duration: 0.3,
+                                        ease: 'power2.out'
+                                    });
+                                }}
+                            >
                                 <div className="text-2xl font-bold text-white transition-all group-hover:text-[#C0C0C0] group-hover:drop-shadow-[0_0_10px_rgba(192,192,192,0.5)] lg:text-4xl">{stat.val}</div>
                                 <div className="text-xs text-gray-400 tracking-wide group-hover:text-gray-200 lg:text-sm">{stat.label}</div>
                             </div>
@@ -126,8 +272,7 @@ export default function Hero() {
 
                 {/* Right Column - Interactive Image Container */}
                 <div
-                    className={`hidden md:flex items-center justify-center w-full lg:w-5/12 xl:w-1/3 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}
-                    style={{ animationDelay: '0.2s' }}
+                    className="hidden md:flex items-center justify-center w-full lg:w-5/12 xl:w-1/3"
                     onMouseMove={handleMouseMove}
                     onMouseLeave={handleMouseLeave}
                     ref={imageRef}
