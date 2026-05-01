@@ -37,11 +37,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${redHatDisplay.variable} font-sans antialiased`}>
-        <SpeedInsights />
         <AuthProvider>
           <CustomCursor />
           <SiteMotion />
           {children}
+          <SpeedInsights />
         </AuthProvider>
       </body>
     </html>
